@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="department">
+        <item>Select your specialty</item>
+        <item>Radiology</item>
+        <item>Gynaecology</item>
+        <item>Dermatology</item>
+    </string-array>
+
+    <string-array name="hospitals">
+        <item>Select your work hospital</item>
+        <item>EGYPT MEDICAL CENTER</item>
+        <item>Misr International Hospital</item>
+        <item>Cleopatra Hospital</item>
+        <item>Egyptian American Center Hospital</item>
+        <item>El Nahar Hospital</item>
+    </string-array>
+
+    <string-array name="bloodtypes">
+        <item>Select your blood type</item>
+        <item>O negative</item>
+        <item>O positive</item>
+        <item>A negative</item>
+        <item>A positive</item>
+        <item>B negative</item>
+        <item>B positive</item>
+        <item>AB negative</item>
+        <item>AB positive</item>
+    </string-array>
+</resources>
