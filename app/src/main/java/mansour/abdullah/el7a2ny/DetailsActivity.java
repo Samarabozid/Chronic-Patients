@@ -235,6 +235,8 @@ public class DetailsActivity extends AppCompatActivity
         databaseReference.child("AllUsers").child("Patients").child(KEY).setValue(patientModel);
 
         returndata(KEY);
+
+        Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_SHORT).show();
     }
 
     private void dialContactPhone(final String phoneNumber)

@@ -12,13 +12,15 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import mansour.abdullah.el7a2ny.AbdullahNFCActivity;
+import mansour.abdullah.el7a2ny.NFCActivity;
 import mansour.abdullah.el7a2ny.R;
 import mansour.abdullah.el7a2ny.RegisterActivity;
 
 public class DoctorProfileFragment extends Fragment
 {
     View view;
-    Button NFC;
+    Button NFC,NFC_abdullah,signout;
 
     @Nullable
     @Override
@@ -34,8 +36,36 @@ public class DoctorProfileFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         NFC = view.findViewById(R.id.nfc_activity_btn);
+        NFC_abdullah = view.findViewById(R.id.abdullah_nfc_activity_btn);
+        signout = view.findViewById(R.id.signout_btn);
 
         NFC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                /*Intent intent = new Intent(getContext(), NFCActivity.class);
+                startActivity(intent);*/
+                //FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getContext(), NFCActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        NFC_abdullah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                /*Intent intent = new Intent(getContext(), NFCActivity.class);
+                startActivity(intent);*/
+                //FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getContext(), AbdullahNFCActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {

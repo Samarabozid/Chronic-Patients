@@ -218,7 +218,6 @@ public class PatientProfileFragment extends Fragment
                 }
 
                 bloodtypes.setEnabled(false);
-                email_field.setEnabled(false);
                 fullname_field.setEnabled(false);
                 mobile_field.setEnabled(false);
                 closemobile_field.setEnabled(false);
@@ -278,7 +277,6 @@ public class PatientProfileFragment extends Fragment
             @Override
             public void onClick(View v) {
                 bloodtypes.setEnabled(true);
-                email_field.setEnabled(true);
                 fullname_field.setEnabled(true);
                 mobile_field.setEnabled(true);
                 closemobile_field.setEnabled(true);
@@ -393,6 +391,8 @@ public class PatientProfileFragment extends Fragment
         databaseReference.child("Patients").child(nfcid).child(getUid()).setValue(patientModel);
         databaseReference.child("AllUsers").child("Patients").child(getUid()).setValue(patientModel);
 
+        Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
+
         if (photoPath == null)
         {
             returndata();
@@ -430,6 +430,8 @@ public class PatientProfileFragment extends Fragment
                 selected_placeimaeURL = downloadUri.toString();
 
                 UpdatePatientProfile(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address,selected_placeimaeURL);
+
+                Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
 
                 returndata();
             }

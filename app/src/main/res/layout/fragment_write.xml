@@ -18,7 +18,7 @@
         android:text="@string/message_write_tag"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#fff"
         />
 
     <ImageView
@@ -43,7 +43,7 @@
             android:text="@string/message_tap_tag"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:layout_centerInParent="true"
             />
 

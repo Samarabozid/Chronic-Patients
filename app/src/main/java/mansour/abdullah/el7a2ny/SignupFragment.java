@@ -57,6 +57,7 @@ import mansour.abdullah.el7a2ny.Models.DoctorModel;
 
 public class SignupFragment extends Fragment
 {
+    public static String EXTRA_PROFILE_TAG = "profile_tag";
     View view;
     MaterialRippleLayout doctor_sign_up,patient_sign_up;
     Button paramedic_btn,guest_btn,admin_btn;
@@ -854,9 +855,10 @@ public class SignupFragment extends Fragment
                 AddPatienttoDB(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address, selectedimageurl);
                 progressDialog.dismiss();
 
-                /*Intent intent = new Intent(getContext(), PatientMainActivity.class);
-                startActivity(intent);*/
-                Toast.makeText(getContext(), "Successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), PatientMainActivity.class);
+                intent.putExtra(EXTRA_PROFILE_TAG, 123);
+                startActivity(intent);
+                //Toast.makeText(getContext(), "Successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

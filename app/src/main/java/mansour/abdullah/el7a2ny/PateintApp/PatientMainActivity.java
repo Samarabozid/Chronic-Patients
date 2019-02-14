@@ -18,6 +18,7 @@ import mansour.abdullah.el7a2ny.DoctorsFragment;
 import mansour.abdullah.el7a2ny.PateintApp.PatientFragments.PatientProfileFragment;
 import mansour.abdullah.el7a2ny.R;
 import mansour.abdullah.el7a2ny.RegisterActivity;
+import mansour.abdullah.el7a2ny.SignupFragment;
 
 public class PatientMainActivity extends AppCompatActivity
 {
@@ -35,8 +36,18 @@ public class PatientMainActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        Fragment doctors = new DoctorsFragment();
-        loadFragment(doctors);
+        int i = getIntent().getIntExtra(SignupFragment.EXTRA_PROFILE_TAG, 0);
+
+        if (i == 123)
+        {
+            Fragment profile = new PatientProfileFragment();
+            loadFragment(profile);
+            navigation.setSelectedItemId(R.id.profile);
+        } else
+            {
+                Fragment doctors = new DoctorsFragment();
+                loadFragment(doctors);
+            }
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {

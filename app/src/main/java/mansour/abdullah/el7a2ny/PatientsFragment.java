@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,8 @@ public class PatientsFragment extends Fragment
     ImageView imageView;
     private LinearLayout lyt_expand_text;
 
+    FloatingActionButton nfc_activity_btn;
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
@@ -84,6 +87,15 @@ public class PatientsFragment extends Fragment
 
         recyclerView = view.findViewById(R.id.doctors_recyclerview);
         rotateLoading = view.findViewById(R.id.rotateloading);
+        nfc_activity_btn = view.findViewById(R.id.nfc_activity_btn);
+
+        nfc_activity_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), NFCActivity.class);
+                startActivity(intent);
+            }
+        });
 
         rotateLoading.start();
 

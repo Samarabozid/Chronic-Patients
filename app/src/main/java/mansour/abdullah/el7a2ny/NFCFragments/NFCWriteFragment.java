@@ -1,6 +1,8 @@
 package mansour.abdullah.el7a2ny.NFCFragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -26,8 +28,8 @@ public class NFCWriteFragment extends DialogFragment
 {
     public static final String TAG = NFCWriteFragment.class.getSimpleName();
 
-    public static NFCWriteFragment newInstance() {
-
+    public static NFCWriteFragment newInstance()
+    {
         return new NFCWriteFragment();
     }
 
@@ -37,14 +39,16 @@ public class NFCWriteFragment extends DialogFragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_write,container,false);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         initViews(view);
         return view;
     }
 
-    private void initViews(View view) {
-
+    private void initViews(View view)
+    {
         mTvMessage = view.findViewById(R.id.tv_message);
         rotateLoading = view.findViewById(R.id.rotateloading);
     }
@@ -58,7 +62,8 @@ public class NFCWriteFragment extends DialogFragment
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener.onDialogDismissed();
     }
@@ -69,12 +74,13 @@ public class NFCWriteFragment extends DialogFragment
         writeToNfc(ndef,messageToWrite);
     }
 
-    private void writeToNfc(Ndef ndef, String message){
-
+    private void writeToNfc(Ndef ndef, String message)
+    {
         mTvMessage.setText(getString(R.string.message_write_progress));
         if (ndef != null) {
 
-            try {
+            try
+            {
                 ndef.connect();
                 NdefRecord mimeRecord = NdefRecord.createMime("text/plain", message.getBytes(Charset.forName("US-ASCII")));
                 ndef.writeNdefMessage(new NdefMessage(mimeRecord));
@@ -82,14 +88,15 @@ public class NFCWriteFragment extends DialogFragment
                 //Write Successful
                 mTvMessage.setText(getString(R.string.message_write_success));
 
-            } catch (IOException | FormatException e) {
+            } catch (IOException | FormatException e)
+            {
                 e.printStackTrace();
                 mTvMessage.setText(getString(R.string.message_write_error));
 
-            } finally {
+            } finally
+            {
                 rotateLoading.stop();
             }
-
         }
     }
 }

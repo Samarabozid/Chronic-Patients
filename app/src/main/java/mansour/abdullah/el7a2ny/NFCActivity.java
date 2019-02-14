@@ -44,9 +44,9 @@ public class NFCActivity extends AppCompatActivity implements Listener
         initNFC();
     }
 
-    private void initViews() {
-
-        mEtMessage = findViewById(R.id.et_message);
+    private void initViews()
+    {
+        //mEtMessage = findViewById(R.id.et_message);
         mBtWrite = findViewById(R.id.btn_write);
         mBtRead = findViewById(R.id.btn_read);
 
@@ -65,53 +65,82 @@ public class NFCActivity extends AppCompatActivity implements Listener
         });
     }
 
-    private void initNFC(){
-
+    private void initNFC()
+    {
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
     private void showWriteFragment()
     {
-
         isWrite = true;
 
         mNfcWriteFragment = (NFCWriteFragment) getSupportFragmentManager().findFragmentByTag(NFCWriteFragment.TAG);
 
-        if (mNfcWriteFragment == null) {
-
+        if (mNfcWriteFragment == null)
+        {
             mNfcWriteFragment = NFCWriteFragment.newInstance();
         }
         mNfcWriteFragment.show(getSupportFragmentManager(),NFCWriteFragment.TAG);
-
     }
 
-    private void showReadFragment() {
-
+    private void showReadFragment()
+    {
         mNfcReadFragment = (NFCReadFragment) getSupportFragmentManager().findFragmentByTag(NFCReadFragment.TAG);
 
-        if (mNfcReadFragment == null) {
+        if (mNfcReadFragment == null)
+        {
 
             mNfcReadFragment = NFCReadFragment.newInstance();
         }
         mNfcReadFragment.show(getSupportFragmentManager(),NFCReadFragment.TAG);
-
     }
 
     @Override
-    public void onDialogDisplayed() {
-
+    public void onDialogDisplayed()
+    {
         isDialogDisplayed = true;
     }
 
     @Override
-    public void onDialogDismissed() {
-
+    public void onDialogDismissed()
+    {
         isDialogDisplayed = false;
         isWrite = false;
     }
 
     @Override
-    protected void onResume() {
+    public void nfc_id(String id)
+    {
+
+    }
+
+    @Override
+    public void patient_name(String name)
+    {
+
+    }
+
+    @Override
+    public void patient_number(String number)
+    {
+
+    }
+
+    @Override
+    public void patient_bloodtype(String bloodtype)
+    {
+
+    }
+
+    @Override
+    public void patient_disease(String disease)
+    {
+
+    }
+
+    @Override
+    protected void onResume()
+    {
         super.onResume();
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
@@ -122,39 +151,40 @@ public class NFCActivity extends AppCompatActivity implements Listener
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         if(mNfcAdapter!= null)
             mNfcAdapter.enableForegroundDispatch(this, pendingIntent, nfcIntentFilter, null);
-
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         if(mNfcAdapter!= null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent)
+    {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
         Log.d(TAG, "onNewIntent: "+intent.getAction());
 
-        if(tag != null) {
+        if(tag != null)
+        {
             Toast.makeText(this, getString(R.string.message_tag_detected), Toast.LENGTH_SHORT).show();
             Ndef ndef = Ndef.get(tag);
 
-            if (isDialogDisplayed) {
-
+            if (isDialogDisplayed)
+            {
                 if (isWrite)
                 {
                     String messageToWrite = mEtMessage.getText().toString();
                     mNfcWriteFragment = (NFCWriteFragment) getSupportFragmentManager().findFragmentByTag(NFCWriteFragment.TAG);
                     mNfcWriteFragment.onNfcDetected(ndef,messageToWrite);
-
-                } else {
-
-                    mNfcReadFragment = (NFCReadFragment)getSupportFragmentManager().findFragmentByTag(NFCReadFragment.TAG);
-                    mNfcReadFragment.onNfcDetected(ndef);
-                }
+                } else
+                    {
+                        mNfcReadFragment = (NFCReadFragment)getSupportFragmentManager().findFragmentByTag(NFCReadFragment.TAG);
+                        mNfcReadFragment.onNfcDetected(ndef);
+                    }
             }
         }
     }
