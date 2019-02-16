@@ -1,6 +1,5 @@
 package mansour.abdullah.el7a2ny;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,17 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +34,6 @@ import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import mansour.abdullah.el7a2ny.Models.DoctorModel;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
 
 public class PatientsFragment extends Fragment
@@ -89,9 +83,11 @@ public class PatientsFragment extends Fragment
         rotateLoading = view.findViewById(R.id.rotateloading);
         nfc_activity_btn = view.findViewById(R.id.nfc_activity_btn);
 
-        nfc_activity_btn.setOnClickListener(new View.OnClickListener() {
+        nfc_activity_btn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(getContext(), NFCActivity.class);
                 startActivity(intent);
             }
@@ -151,7 +147,7 @@ public class PatientsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
                         intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
@@ -162,7 +158,7 @@ public class PatientsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
                         intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
@@ -217,7 +213,7 @@ public class PatientsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
                         intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
@@ -228,7 +224,7 @@ public class PatientsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
                         intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }

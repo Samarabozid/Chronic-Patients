@@ -800,7 +800,7 @@ public class SignupFragment extends Fragment
     {
         PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
 
-        databaseReference.child("Patients").child(nfcid).child(getUID()).setValue(patientModel);
+        databaseReference.child("Patients").child(nfcid).child(nfcid).setValue(patientModel);
         databaseReference.child("AllUsers").child("Patients").child(getUID()).setValue(patientModel);
     }
 

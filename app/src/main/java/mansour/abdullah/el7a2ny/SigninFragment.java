@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.victor.loading.rotate.RotateLoading;
 
+import mansour.abdullah.el7a2ny.AdminApp.AdminMainActivity;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.R;
@@ -92,9 +93,17 @@ public class SigninFragment extends Fragment
                     return;
                 }
 
-                rotateLoading.start();
+                if (email_txt.equals("admin@admin.com") && password_txt.equals("adminadmin"))
+                {
+                    rotateLoading.start();
 
-                UserLogin(email_txt,password_txt);
+                    AdminLogin(email_txt,password_txt);
+                } else
+                    {
+                        rotateLoading.start();
+
+                        UserLogin(email_txt,password_txt);
+                    }
             }
         });
 
@@ -109,6 +118,28 @@ public class SigninFragment extends Fragment
                         if (task.isSuccessful())
                         {
                             category();
+                        } else
+                        {
+                            rotateLoading.stop();
+                            String taskmessage = task.getException().getMessage();
+                            Toast.makeText(getContext(), taskmessage, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void AdminLogin(String email, String password)
+    {
+        auth.signInWithEmailAndPassword(email,password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful())
+                        {
+                            rotateLoading.stop();
+
+                            Intent intent = new Intent(getContext(), AdminMainActivity.class);
+                            startActivity(intent);
                         } else
                         {
                             rotateLoading.stop();

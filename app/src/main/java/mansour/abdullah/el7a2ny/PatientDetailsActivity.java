@@ -6,8 +6,10 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,25 +18,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.Models.PatientModel;
 
-public class DetailsActivity extends AppCompatActivity
+public class PatientDetailsActivity extends AppCompatActivity
 {
-    String KEY;
+    String PATIENT_KEY;
+    String PATIENT_NFC;
 
-    Button edit_profile_btn,signout_btn,savechanges_btn;
+    public static String PATIENT_NFC_KEY = "patient_nfc_key";
+    /*public static String PATIENT_NAME_KEY = "patient_nfc_key";
+    public static String PATIENT_EMERGENCY_KEY = "patient_nfc_key";
+    public static String PATIENT_BLOODTYPE_KEY = "patient_nfc_key";*/
+
+    String selected_bloodtype;
+
+    Button edit_profile_btn,savechanges_btn,scan_nfc;
+
+    CardView scan_card;
 
     ImageView profilepicture,callmobile,datepick;
     TextView fullname_txt,nfcid_txt;
@@ -54,15 +62,40 @@ public class DetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_patinet_details);
 
-        KEY = getIntent().getStringExtra(PatientsFragment.EXTRA_PATIENT_KEY);
+        PATIENT_KEY = getIntent().getStringExtra(PatientsFragment.EXTRA_PATIENT_KEY);
+        PATIENT_NFC = getIntent().getStringExtra(NFCActivity.EXTRA_PATIENT_KEY2);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         databaseReference.keepSynced(true);
 
         init();
+
+        rotateLoading.start();
+
+        if (TextUtils.isEmpty(PATIENT_KEY))
+        {
+            return_scanned_data(PATIENT_NFC);
+            scan_card.setVisibility(View.GONE);
+        } else
+        {
+            returndata(PATIENT_KEY);
+        }
+
+        scan_nfc.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                nfc_id_txt = nfcid_field.getText().toString();
+
+                Intent intent = new Intent(getApplicationContext(), NFCActivity.class);
+                intent.putExtra(PATIENT_NFC_KEY, nfc_id_txt);
+                startActivity(intent);
+            }
+        });
 
         callmobile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,16 +152,15 @@ public class DetailsActivity extends AppCompatActivity
                 edit_profile_btn.setEnabled(false);
             }
         });
-
-        rotateLoading.start();
-        returndata(KEY);
     }
 
     public void init()
     {
+        scan_card = findViewById(R.id.card_scan);
+
         edit_profile_btn = findViewById(R.id.edit_profile_btn);
-        signout_btn = findViewById(R.id.signout_btn);
         savechanges_btn = findViewById(R.id.savechanges_btn);
+        scan_nfc = findViewById(R.id.scan_nfc);
 
         fullname_txt = findViewById(R.id.fullname_txt);
         nfcid_txt = findViewById(R.id.nfcid_txt);
@@ -174,12 +206,65 @@ public class DetailsActivity extends AppCompatActivity
         savechanges_btn.setEnabled(false);
     }
 
-    public void returndata(String key)
+    public void returndata(String patient_key)
     {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.keepSynced(true);
 
-        mDatabase.child("AllUsers").child("Patients").child(key).addListenerForSingleValueEvent(
+        mDatabase.child("AllUsers").child("Patients").child(patient_key).addListenerForSingleValueEvent(
+                new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+                        // Get user value
+                        PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
+
+                        NFC = patientModel.getNFC_ID();
+
+                        fullname_txt.setText(patientModel.getFullname());
+                        nfcid_txt.setText(patientModel.getNFC_ID());
+                        mobile = patientModel.getMobilenumber();
+                        email_field.setText(patientModel.getEmail());
+                        fullname_field.setText(patientModel.getFullname());
+                        mobile_field.setText(patientModel.getMobilenumber());
+                        closemobile_field.setText(patientModel.getClose_mobile_number());
+                        address_field.setText(patientModel.getAddress());
+                        nfcid_field.setText(NFC);
+                        personalid_field.setText(patientModel.getPersonal_ID());
+                        birthday_field.setText(patientModel.getBirthdate());
+                        bloodtypes.setSelection(patientModel.getBloodtypes());
+
+                        medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
+                        pharmaceutical_field.setText(patientModel.getPharmaceutical());
+
+                        profile_image_url = patientModel.getImageurl();
+
+
+                        Picasso.get()
+                                .load(profile_image_url)
+                                .placeholder(R.drawable.patient2)
+                                .error(R.drawable.patient2)
+                                .into(profilepicture);
+
+                        rotateLoading.stop();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError)
+                    {
+                        Toast.makeText(getApplicationContext(), "can\'t fetch data", Toast.LENGTH_SHORT).show();
+                        rotateLoading.stop();
+                    }
+                });
+    }
+
+    public void return_scanned_data(String patient_nfc)
+    {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
+
+        mDatabase.child("Patients").child(patient_nfc).child(patient_nfc).addListenerForSingleValueEvent(
                 new ValueEventListener()
                 {
                     @Override
@@ -231,10 +316,16 @@ public class DetailsActivity extends AppCompatActivity
     {
         PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,med,pharm,bloodtype);
 
-        databaseReference.child("Patients").child(NFC).child(KEY).setValue(patientModel);
-        databaseReference.child("AllUsers").child("Patients").child(KEY).setValue(patientModel);
+        databaseReference.child("Patients").child(NFC).child(NFC).child(PATIENT_KEY).setValue(patientModel);
+        databaseReference.child("AllUsers").child("Patients").child(PATIENT_KEY).setValue(patientModel);
 
-        returndata(KEY);
+        if (TextUtils.isEmpty(PATIENT_KEY))
+        {
+            return_scanned_data(PATIENT_NFC);
+        } else
+        {
+            returndata(PATIENT_KEY);
+        }
 
         Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_SHORT).show();
     }
