@@ -5,17 +5,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminApp.AdminMainActivity"
+    tools:context=".ParamedicApp.ParamedicMainActivity"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@android:color/white"
     >
 
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Admin"
-        android:gravity="center"
-        android:textSize="25sp"
-        />
+        android:background="#fff"
+        app:menu="@menu/admin_bottom_menu"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@drawable/bottom_navigation_colors"
+        app:itemTextColor="@drawable/bottom_navigation_colors"
+        >
+
+    </android.support.design.widget.BottomNavigationView>
 
 </LinearLayout>

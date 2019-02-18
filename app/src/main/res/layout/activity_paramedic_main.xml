@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        app:menu="@menu/bottom_menu"
+        app:menu="@menu/paramedic_bottom_menu"
         app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@drawable/bottom_navigation_colors"
         app:itemTextColor="@drawable/bottom_navigation_colors"

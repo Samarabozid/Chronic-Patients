@@ -807,6 +807,7 @@ public class SignupFragment extends Fragment
 
                 Intent intent = new Intent(getContext(), ParamedicMainActivity.class);
                 startActivity(intent);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

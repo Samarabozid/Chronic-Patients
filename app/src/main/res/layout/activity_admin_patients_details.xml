@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PatientDetailsActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_20"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/overlay_dark_60" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/patient_profile_picture"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/doctor2"
+                        android:layout_marginRight="20dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/fullname_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Abdullah Mansour"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/nfcid_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Android Developer"
+                            android:textColor="#fff"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="15dp"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal"
+                            >
+
+                            <ImageView
+                                android:id="@+id/phonenumber_btn"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/phone"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/email_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:textColor="#000"
+                        android:inputType="textEmailAddress"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/fullname_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Full Name"
+                        android:textColor="#000"
+                        android:inputType="textPersonName|textCapWords"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/mobile_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mobile Number"
+                        android:inputType="phone"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/closest_mobile_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Closest Mobile Number"
+                        android:inputType="phone"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/address_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Address"
+                        android:inputType="text"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/nfc_id_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="NFC ID"
+                        android:inputType="text"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/personal_id_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Personal ID"
+                        android:inputType="text"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="20sp"
+                        style="@style/RippleStyleGrey"
+                        >
+
+                        <ImageView
+                            android:id="@+id/date_picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_date_range_black_24dp"
+                            />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        >
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/datebirth_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Birth Date"
+                            android:inputType="date"
+                            android:textColor="#000"
+                            android:textSize="16sp"
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Blood Type"
+                        android:textSize="16sp"
+                        android:layout_marginRight="10dp"
+                        />
+
+                    <Spinner
+                        android:id="@+id/blood_spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/medical_diagnosis_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Medical Diagnosis"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:text="@string/luxury_content"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/pharmaceutical_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Pharmaceutical"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:text="@string/luxury_content"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/rotateloading"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:loading_width="5dp"
+        app:loading_color="@color/colorPrimary"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+

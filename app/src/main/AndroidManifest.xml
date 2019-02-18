@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mansour.abdullah.el7a2ny">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ParamedicApp.ParamedicMainActivity"></activity>
+        <activity android:name=".AdminApp.AdminDoctorsAndParamedicsDetailsActivity"></activity>
+        <activity android:name=".AdminApp.AdminPatientsDetailsActivity" />
+        <activity android:name=".ParamedicApp.ParamedicMainActivity" />
         <activity android:name=".DoctorDetailsActivity" />
         <activity android:name=".AdminApp.AdminMainActivity" />
         <activity android:name=".AbdullahNFCActivity">

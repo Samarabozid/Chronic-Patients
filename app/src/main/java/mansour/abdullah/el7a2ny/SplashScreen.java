@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import mansour.abdullah.el7a2ny.AdminApp.AdminMainActivity;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
@@ -157,8 +158,7 @@ public class SplashScreen extends AppCompatActivity
                                                                     //Toast.makeText(getApplicationContext(), "paramedic : " + id, Toast.LENGTH_SHORT).show();
                                                                 } else
                                                                 {
-                                                                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                                                                    startActivity(intent);
+                                                                    updateAdminUI();
                                                                 }
                                                             }
 
@@ -236,6 +236,24 @@ public class SplashScreen extends AppCompatActivity
                 // go to the main activity
                 Intent intent = new Intent(getApplicationContext(), ParamedicMainActivity.class);
                 startActivity(intent);
+                // kill current activity
+                finish();
+            }
+        };
+        // Show splash screen for 3 seconds
+        new Timer().schedule(task, 3000);
+    }
+
+    public void updateAdminUI()
+    {
+        TimerTask task = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                // go to the main activity
+                Intent i = new Intent(getApplicationContext(), AdminMainActivity.class);
+                startActivity(i);
                 // kill current activity
                 finish();
             }
