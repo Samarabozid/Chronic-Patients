@@ -18,13 +18,13 @@
 
     <string-array name="bloodtypes">
         <item>Select your blood type</item>
-        <item>O negative</item>
-        <item>O positive</item>
-        <item>A negative</item>
-        <item>A positive</item>
-        <item>B negative</item>
-        <item>B positive</item>
-        <item>AB negative</item>
-        <item>AB positive</item>
+        <item>O -</item>
+        <item>O +</item>
+        <item>A -</item>
+        <item>A +</item>
+        <item>B -</item>
+        <item>B +</item>
+        <item>AB -</item>
+        <item>AB +</item>
     </string-array>
 </resources>

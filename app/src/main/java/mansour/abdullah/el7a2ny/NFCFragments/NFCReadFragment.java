@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -36,11 +37,13 @@ public class NFCReadFragment extends DialogFragment
 
     private Listener mListener;
 
+    View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_read,container,false);
+        view = inflater.inflate(R.layout.fragment_read,container,false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return view;
@@ -92,7 +95,7 @@ public class NFCReadFragment extends DialogFragment
             this.mListener.patient_bloodtype(type);
             this.mListener.patient_disease(disease);
 
-            this.dismiss();
+            dismiss();
 
             ndef.close();
 

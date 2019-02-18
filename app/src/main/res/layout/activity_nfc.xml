@@ -35,7 +35,7 @@
                 android:id="@+id/btn_read"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/message_read_tag"
+                android:text="scan nfc"
                 android:background="@color/colorAccent"
                 android:textColor="#fff"
                 android:textStyle="bold"
@@ -55,6 +55,7 @@
         android:padding="10dp"
         android:inputType="text"
         android:layout_margin="16dp"
+        android:textColor="@android:color/black"
         />
 
     <EditText
@@ -93,9 +94,9 @@
         >
 
         <EditText
-            android:id="@+id/patient_bloodtype_field"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/edit_text_background"
             android:hint="Patient Blood Type"
             android:inputType="text"
@@ -104,11 +105,18 @@
             android:enabled="false"
             />
 
-        <Spinner
-            android:id="@+id/blood_spinner"
+        <EditText
+            android:id="@+id/patient_bloodtype_field"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/edit_text_background"
+            android:hint="blood type"
+            android:inputType="text"
+            android:padding="10dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:textColor="@android:color/black"
             />
 
     </LinearLayout>
@@ -146,7 +154,7 @@
                     android:id="@+id/btn_write"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/message_write_tag"
+                    android:text="write to nfc"
                     android:background="@color/colorAccent"
                     android:textColor="#fff"
                     android:textStyle="bold"

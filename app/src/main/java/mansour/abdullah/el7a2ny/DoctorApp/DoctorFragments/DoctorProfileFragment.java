@@ -1,8 +1,15 @@
 package mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +22,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,6 +38,8 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -52,8 +64,10 @@ import mansour.abdullah.el7a2ny.NFCActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientFragments.PatientProfileFragment;
 import mansour.abdullah.el7a2ny.R;
 import mansour.abdullah.el7a2ny.RegisterActivity;
+import mansour.abdullah.el7a2ny.SignupFragment;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class DoctorProfileFragment extends Fragment
 {
@@ -61,7 +75,7 @@ public class DoctorProfileFragment extends Fragment
 
     Button edit_profile_btn,signout_btn,savechanges_btn;
 
-    ImageView profilepicture,callmobile;
+    ImageView profilepicture,callmobile,remover_user;
     TextView fullname_txt,nfcid_txt;
     static EditText email_field,fullname_field,mobile_field,address_field;
     String mobile,profile_image_url,special;
@@ -79,6 +93,14 @@ public class DoctorProfileFragment extends Fragment
     String selected_placeimaeURL = "";
     Uri photoPath;
 
+    SharedPreferences loginPreferences;
+    SharedPreferences.Editor loginPrefsEditor;
+    Boolean saveLogin;
+
+    String pass;
+
+    ProgressDialog progressDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -93,6 +115,9 @@ public class DoctorProfileFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
 
+        loginPreferences = getActivity().getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
         edit_profile_btn = view.findViewById(R.id.edit_profile_btn);
         signout_btn = view.findViewById(R.id.signout_btn);
         savechanges_btn = view.findViewById(R.id.savechanges_btn);
@@ -102,6 +127,7 @@ public class DoctorProfileFragment extends Fragment
 
         profilepicture = view.findViewById(R.id.patient_profile_picture);
         callmobile = view.findViewById(R.id.phonenumber_btn);
+        remover_user = view.findViewById(R.id.remover_user_btn);
 
         email_field = view.findViewById(R.id.email_field);
         fullname_field = view.findViewById(R.id.fullname_field);
@@ -109,6 +135,13 @@ public class DoctorProfileFragment extends Fragment
         address_field = view.findViewById(R.id.address_field);
 
         rotateLoading = view.findViewById(R.id.rotateloading);
+
+        saveLogin = loginPreferences.getBoolean("savepassword", false);
+
+        if (saveLogin)
+        {
+            pass = loginPreferences.getString("pass", "");
+        }
 
         email_field.setEnabled(false);
         fullname_field.setEnabled(false);
@@ -121,6 +154,14 @@ public class DoctorProfileFragment extends Fragment
             @Override
             public void onClick(View v) {
                 dialContactPhone(mobile);
+            }
+        });
+
+        remover_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                showDeleteDialog();
             }
         });
 
@@ -366,6 +407,94 @@ public class DoctorProfileFragment extends Fragment
                 Exception error = result.getError();
             }
         }
+    }
+
+    private void showDeleteDialog()
+    {
+        final Dialog dialog = new Dialog(getActivity());
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.delete_user_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes();
+        dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button yes_btn = dialog.findViewById(R.id.yes_btn);
+        Button cancel_btn = dialog.findViewById(R.id.cancel_btn);
+
+        yes_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setTitle("DeleteAccount");
+                progressDialog.setMessage("Please Wait Until Deleting Account ...");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+
+                databaseReference.child("Doctors").child(special).child(getUid()).removeValue();
+                databaseReference.child("AllUsers").child("Doctors").child(getUid()).removeValue();
+
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (user != null)
+                {
+                    /*user.delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful())
+                                    {
+                                        Intent intent = new Intent(getContext(), RegisterActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });*/
+                    // Get auth credentials from the user for re-authentication. The example below shows
+                    // email and password credentials but there are multiple possible providers,
+                    // such as GoogleAuthProvider or FacebookAuthProvider.
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(email_field.getText().toString() ,pass);
+
+                    // Prompt the user to re-provide their sign-in credentials
+                    user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    user.delete()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful())
+                                                    {
+                                                        Intent intent = new Intent(getContext(), RegisterActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                                            });
+                                }
+                            });
+                }
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     public String getUid()

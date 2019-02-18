@@ -1,9 +1,11 @@
 package mansour.abdullah.el7a2ny;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.support.v7.app.AppCompatActivity;
@@ -44,10 +46,10 @@ public class NFCActivity extends AppCompatActivity implements Listener
 
     RotateLoading rotateLoading;
 
-    Spinner bloodtypes;
 
     Button view_profile_btn;
     EditText patient_nfc,patient_name,patient_emergency,patient_bloodtype,patient_disease;
+    String all,nfc,name,emergency,bloodtype,disease;
 
     private NFCWriteFragment mNfcWriteFragment;
     private NFCReadFragment mNfcReadFragment;
@@ -92,7 +94,34 @@ public class NFCActivity extends AppCompatActivity implements Listener
                         patient_nfc.setText(patientModel.getNFC_ID());
                         patient_name.setText(patientModel.getFullname());
                         patient_emergency.setText(patientModel.getClose_mobile_number());
-                        bloodtypes.setSelection(patientModel.getBloodtypes());
+
+                        int blood = patientModel.getBloodtypes();
+
+                        if (blood == 1)
+                        {
+                            patient_bloodtype.setText("O -");
+                        } else if (blood == 2)
+                        {
+                            patient_bloodtype.setText("O +");
+                        } else if (blood == 3)
+                        {
+                            patient_bloodtype.setText("A -");
+                        } else if (blood == 4)
+                        {
+                            patient_bloodtype.setText("A +");
+                        } else if (blood == 5)
+                        {
+                            patient_bloodtype.setText("B -");
+                        } else if (blood == 6)
+                        {
+                            patient_bloodtype.setText("B +");
+                        } else if (blood == 7)
+                        {
+                            patient_bloodtype.setText("AB -");
+                        } else
+                            {
+                                patient_bloodtype.setText("AB +");
+                            }
 
                         rotateLoading.stop();
                     }
@@ -124,17 +153,10 @@ public class NFCActivity extends AppCompatActivity implements Listener
         patient_emergency = findViewById(R.id.patient_emergency_field);
         patient_bloodtype = findViewById(R.id.patient_bloodtype_field);
         patient_disease = findViewById(R.id.patient_disease_field);
-        bloodtypes = findViewById(R.id.blood_spinner);
-
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getApplicationContext(),
-                R.array.bloodtypes, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        bloodtypes.setAdapter(adapter1);
 
         patient_nfc.setEnabled(false);
-        bloodtypes.setEnabled(false);
+        patient_bloodtype.setEnabled(false);
+
         /*patient_name.setEnabled(false);
         patient_emergency.setEnabled(false);
         patient_bloodtype.setEnabled(false);
@@ -158,15 +180,50 @@ public class NFCActivity extends AppCompatActivity implements Listener
 
         mBtWrite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showWriteFragment();
+            public void onClick(View v)
+            {
+                NfcManager manager = (NfcManager) getApplicationContext().getSystemService(Context.NFC_SERVICE);
+                NfcAdapter adapter = manager.getDefaultAdapter();
+                if (adapter != null && adapter.isEnabled())
+                {
+                    // adapter exists and is enabled.
+
+                    nfc = patient_nfc.getText().toString();
+                    name = patient_name.getText().toString();
+                    emergency = patient_emergency.getText().toString();
+                    bloodtype = patient_bloodtype.getText().toString();
+                    disease = patient_disease.getText().toString();
+
+                    all = nfc + "," + name + "," + emergency + "," + bloodtype + "," + disease;
+
+                    if (TextUtils.isEmpty(all))
+                    {
+                        Toast.makeText(getApplicationContext(), "please enter all data to write it", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    showWriteFragment();
+                } else
+                    {
+                        Toast.makeText(getApplicationContext(), "please check that NFC is enabled firstly", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
 
         mBtRead.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showReadFragment();
+            public void onClick(View v)
+            {
+                NfcManager manager = (NfcManager) getApplicationContext().getSystemService(Context.NFC_SERVICE);
+                NfcAdapter adapter = manager.getDefaultAdapter();
+                if (adapter != null && adapter.isEnabled())
+                {
+                    // adapter exists and is enabled.
+                    showReadFragment();
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "please check that NFC is enabled firstly", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -217,31 +274,31 @@ public class NFCActivity extends AppCompatActivity implements Listener
     @Override
     public void nfc_id(String id)
     {
-
+        patient_nfc.setText(id);
     }
 
     @Override
     public void patient_name(String name)
     {
-
+        patient_name.setText(name);
     }
 
     @Override
     public void patient_number(String number)
     {
-
+        patient_emergency.setText(number);
     }
 
     @Override
     public void patient_bloodtype(String bloodtype)
     {
-
+        patient_bloodtype.setText(bloodtype);
     }
 
     @Override
     public void patient_disease(String disease)
     {
-
+        patient_disease.setText(disease);
     }
 
     @Override
@@ -283,9 +340,16 @@ public class NFCActivity extends AppCompatActivity implements Listener
             {
                 if (isWrite)
                 {
-                    String messageToWrite = mEtMessage.getText().toString();
+                    nfc = patient_nfc.getText().toString();
+                    name = patient_name.getText().toString();
+                    emergency = patient_emergency.getText().toString();
+                    bloodtype = patient_bloodtype.getText().toString();
+                    disease = patient_disease.getText().toString();
+
+                    all = nfc + "," + name + "," + emergency + "," + bloodtype + "," + disease;
+
                     mNfcWriteFragment = (NFCWriteFragment) getSupportFragmentManager().findFragmentByTag(NFCWriteFragment.TAG);
-                    mNfcWriteFragment.onNfcDetected(ndef,messageToWrite);
+                    mNfcWriteFragment.onNfcDetected(ndef,all);
                 } else
                     {
                         mNfcReadFragment = (NFCReadFragment)getSupportFragmentManager().findFragmentByTag(NFCReadFragment.TAG);

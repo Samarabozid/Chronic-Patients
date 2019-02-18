@@ -65,6 +65,8 @@ public class DoctorsFragment extends Fragment
 
     RotateLoading rotateLoading;
 
+    final static String EXTRA_DOCTOR_KEY = "doctor_key";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -142,7 +144,7 @@ public class DoctorsFragment extends Fragment
             {
                 rotateLoading.stop();
 
-                final String companykey = getRef(position).getKey();
+                final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
 
@@ -150,6 +152,28 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v) {
                         dialContactPhone(model.getMobilenumber());
+                    }
+                });
+
+                holder.doctor_details.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
+                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        startActivity(intent);
+                    }
+                });
+
+                holder.view_profile_btn.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
+                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        startActivity(intent);
                     }
                 });
 
@@ -196,7 +220,7 @@ public class DoctorsFragment extends Fragment
             {
                 rotateLoading.stop();
 
-                final String companykey = getRef(position).getKey();
+                final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
 
@@ -204,6 +228,28 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v) {
                         dialContactPhone(model.getMobilenumber());
+                    }
+                });
+
+                holder.doctor_details.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
+                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        startActivity(intent);
+                    }
+                });
+
+                holder.view_profile_btn.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
+                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        startActivity(intent);
                     }
                 });
 
@@ -439,6 +485,8 @@ public class DoctorsFragment extends Fragment
             doctor_mobile = itemView.findViewById(R.id.phonenumber_btn);
             doctor_name = itemView.findViewById(R.id.doctor_fullname);
             doctor_specailty = itemView.findViewById(R.id.doctor_specialty);
+            doctor_details = itemView.findViewById(R.id.details_btn);
+            view_profile_btn = itemView.findViewById(R.id.view_profile_btn);
         }
 
         void BindPlaces(final DoctorModel doctorModel)

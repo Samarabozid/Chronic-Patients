@@ -1,7 +1,5 @@
-package mansour.abdullah.el7a2ny.PateintApp.PatientFragments;
+package mansour.abdullah.el7a2ny.ParamedicApp.ParamedicFragments;
 
-import android.app.ActivityOptions;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,12 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,31 +46,28 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.victor.loading.rotate.RotateLoading;
 
-import java.util.Calendar;
-
-import mansour.abdullah.el7a2ny.Models.PatientModel;
-import mansour.abdullah.el7a2ny.NFCActivity;
-import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
+import mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments.DoctorProfileFragment;
+import mansour.abdullah.el7a2ny.Models.DoctorModel;
+import mansour.abdullah.el7a2ny.Models.ParamedicModel;
 import mansour.abdullah.el7a2ny.R;
 import mansour.abdullah.el7a2ny.RegisterActivity;
-import mansour.abdullah.el7a2ny.SignupFragment;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
-public class PatientProfileFragment extends Fragment
+public class ParamedicProfileFragment extends Fragment
 {
+
     View view;
 
     Button edit_profile_btn,signout_btn,savechanges_btn;
 
-    ImageView profilepicture,callmobile,datepick,remover_user;
+    ImageView profilepicture,callmobile,remover_user;
     TextView fullname_txt,nfcid_txt;
-    static EditText email_field,fullname_field,mobile_field,closemobile_field,address_field,nfcid_field,personalid_field,birthday_field,medicaldiagnosis_field,pharmaceutical_field;
-    Spinner bloodtypes;
-    String mobile,profile_image_url;
+    static EditText email_field,fullname_field,mobile_field,address_field;
+    String mobile,profile_image_url,special;
 
-    String full_name_txt,email_txt,mobile_txt,address_txt,closest_txt,nfc_id_txt,personal_id_txt,date_txt;
+    String full_name_txt,email_txt,mobile_txt,address_txt;
 
     RotateLoading rotateLoading;
 
@@ -93,7 +84,7 @@ public class PatientProfileFragment extends Fragment
     SharedPreferences.Editor loginPrefsEditor;
     Boolean saveLogin;
 
-    String pass,nfcid;
+    String pass;
 
     ProgressDialog progressDialog;
 
@@ -101,7 +92,7 @@ public class PatientProfileFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.patient_profile_fragment, container, false);
+        view = inflater.inflate(R.layout.paramedic_profile_fragment, container, false);
 
         return view;
     }
@@ -123,29 +114,14 @@ public class PatientProfileFragment extends Fragment
 
         profilepicture = view.findViewById(R.id.patient_profile_picture);
         callmobile = view.findViewById(R.id.phonenumber_btn);
-        datepick = view.findViewById(R.id.date_picker);
         remover_user = view.findViewById(R.id.remover_user_btn);
 
         email_field = view.findViewById(R.id.email_field);
         fullname_field = view.findViewById(R.id.fullname_field);
         mobile_field = view.findViewById(R.id.mobile_field);
-        closemobile_field = view.findViewById(R.id.closest_mobile_field);
         address_field = view.findViewById(R.id.address_field);
-        nfcid_field = view.findViewById(R.id.nfc_id_field);
-        personalid_field = view.findViewById(R.id.personal_id_field);
-        birthday_field = view.findViewById(R.id.datebirth_field);
-        medicaldiagnosis_field = view.findViewById(R.id.medical_diagnosis_field);
-        pharmaceutical_field = view.findViewById(R.id.pharmaceutical_field);
 
-        bloodtypes = view.findViewById(R.id.blood_spinner);
         rotateLoading = view.findViewById(R.id.rotateloading);
-
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(),
-                R.array.bloodtypes, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        bloodtypes.setAdapter(adapter1);
 
         saveLogin = loginPreferences.getBoolean("savepassword", false);
 
@@ -154,18 +130,10 @@ public class PatientProfileFragment extends Fragment
             pass = loginPreferences.getString("pass", "");
         }
 
-        bloodtypes.setEnabled(false);
         email_field.setEnabled(false);
         fullname_field.setEnabled(false);
         mobile_field.setEnabled(false);
-        closemobile_field.setEnabled(false);
         address_field.setEnabled(false);
-        nfcid_field.setEnabled(false);
-        personalid_field.setEnabled(false);
-        birthday_field.setEnabled(false);
-        datepick.setEnabled(false);
-        medicaldiagnosis_field.setEnabled(false);
-        pharmaceutical_field.setEnabled(false);
         profilepicture.setEnabled(false);
         savechanges_btn.setEnabled(false);
 
@@ -192,11 +160,7 @@ public class PatientProfileFragment extends Fragment
                 full_name_txt = fullname_field.getText().toString();
                 email_txt = email_field.getText().toString();
                 mobile_txt = mobile_field.getText().toString();
-                closest_txt = closemobile_field.getText().toString();
                 address_txt = address_field.getText().toString();
-                nfc_id_txt = nfcid_field.getText().toString();
-                personal_id_txt = personalid_field.getText().toString();
-                date_txt = birthday_field.getText().toString();
 
                 if (TextUtils.isEmpty(full_name_txt))
                 {
@@ -216,64 +180,26 @@ public class PatientProfileFragment extends Fragment
                     return;
                 }
 
-                if (TextUtils.isEmpty(closest_txt))
-                {
-                    Toast.makeText(getContext(), "please enter your closest mobile number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 if (TextUtils.isEmpty(address_txt))
                 {
                     Toast.makeText(getContext(), "please enter your address", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (TextUtils.isEmpty(nfc_id_txt))
-                {
-                    Toast.makeText(getContext(), "please enter your NFC id", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(personal_id_txt))
-                {
-                    Toast.makeText(getContext(), "please enter your personal id", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(date_txt))
-                {
-                    Toast.makeText(getContext(), "please pick or enter your birth date", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (bloodtypes.getSelectedItemPosition() == 0)
-                {
-                    Toast.makeText(getContext(), "please select your blood type", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                bloodtypes.setEnabled(false);
                 fullname_field.setEnabled(false);
                 mobile_field.setEnabled(false);
-                closemobile_field.setEnabled(false);
                 address_field.setEnabled(false);
-                nfcid_field.setEnabled(false);
-                personalid_field.setEnabled(false);
-                birthday_field.setEnabled(false);
-                datepick.setEnabled(false);
-                medicaldiagnosis_field.setEnabled(false);
-                pharmaceutical_field.setEnabled(false);
                 profilepicture.setEnabled(false);
                 savechanges_btn.setEnabled(false);
                 edit_profile_btn.setEnabled(true);
 
                 if (photoPath == null)
                 {
-                    UpdatePatientProfile(full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt,profile_image_url);
+                    UpdatePatientProfile(full_name_txt,email_txt,mobile_txt,special,address_txt,profile_image_url);
                 } else
-                    {
-                        uploadImage(full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt);
-                    }
+                {
+                    uploadImage(full_name_txt,email_txt,mobile_txt,special,address_txt);
+                }
             }
         });
 
@@ -283,7 +209,7 @@ public class PatientProfileFragment extends Fragment
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
                         .setAspectRatio(1,1)
-                        .start(getContext(), PatientProfileFragment.this);
+                        .start(getContext(), ParamedicProfileFragment.this);
             }
         });
 
@@ -300,23 +226,12 @@ public class PatientProfileFragment extends Fragment
             }
         });
 
-        datepick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getFragmentManager(), "datePicker");
-            }
-        });
-
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fullname_field.setEnabled(true);
                 mobile_field.setEnabled(true);
-                closemobile_field.setEnabled(true);
                 address_field.setEnabled(true);
-                birthday_field.setEnabled(true);
-                datepick.setEnabled(true);
                 profilepicture.setEnabled(true);
                 savechanges_btn.setEnabled(true);
                 edit_profile_btn.setEnabled(false);
@@ -335,30 +250,6 @@ public class PatientProfileFragment extends Fragment
         returndata();
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener
-    {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), R.style.dialoge,this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day)
-        {
-            // Do something with the date chosen by the user
-            int month2 = month + 1;
-            birthday_field.setText(day + "/" + month2  + "/" + year);
-        }
-    }
-
     public void returndata()
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -367,40 +258,34 @@ public class PatientProfileFragment extends Fragment
 
         final String userId = user.getUid();
 
-        mDatabase.child("AllUsers").child("Patients").child(userId).addListenerForSingleValueEvent(
+        mDatabase.child("AllUsers").child("Paramedics").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener()
                 {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot)
                     {
                         // Get user value
-                        PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
+                        ParamedicModel paramedicModel = dataSnapshot.getValue(ParamedicModel.class);
 
-                        fullname_txt.setText(patientModel.getFullname());
+                        special = paramedicModel.getWork_place();
+                        nfcid_txt.setText(special);
 
-                        nfcid = patientModel.getNFC_ID();
+                        mobile = paramedicModel.getMobilenumber();
+                        mobile_field.setText(mobile);
 
-                        nfcid_txt.setText(nfcid);
-                        mobile = patientModel.getMobilenumber();
-                        email_field.setText(patientModel.getEmail());
-                        fullname_field.setText(patientModel.getFullname());
-                        mobile_field.setText(patientModel.getMobilenumber());
-                        closemobile_field.setText(patientModel.getClose_mobile_number());
-                        address_field.setText(patientModel.getAddress());
-                        nfcid_field.setText(patientModel.getNFC_ID());
-                        personalid_field.setText(patientModel.getPersonal_ID());
-                        birthday_field.setText(patientModel.getBirthdate());
-                        bloodtypes.setSelection(patientModel.getBloodtypes());
+                        email_field.setText(paramedicModel.getEmail());
 
-                        medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
-                        pharmaceutical_field.setText(patientModel.getPharmaceutical());
+                        fullname_txt.setText(paramedicModel.getFullname());
+                        fullname_field.setText(paramedicModel.getFullname());
 
-                        profile_image_url = patientModel.getImageurl();
+                        address_field.setText(paramedicModel.getAddress());
+
+                        profile_image_url = paramedicModel.getImageurl();
 
                         Picasso.get()
                                 .load(profile_image_url)
-                                .placeholder(R.drawable.patient2)
-                                .error(R.drawable.patient2)
+                                .placeholder(R.drawable.doctor2)
+                                .error(R.drawable.doctor2)
                                 .into(profilepicture);
 
                         rotateLoading.stop();
@@ -421,12 +306,12 @@ public class PatientProfileFragment extends Fragment
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void UpdatePatientProfile(String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl)
+    public void UpdatePatientProfile(String fullname, String email, String mobile, String spec, String address, String imageurl)
     {
-        PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
+        ParamedicModel paramedicModel = new ParamedicModel(fullname,email,mobile,spec,address,imageurl);
 
-        databaseReference.child("Patients").child(nfcid).child(getUid()).setValue(patientModel);
-        databaseReference.child("AllUsers").child("Patients").child(getUid()).setValue(patientModel);
+        databaseReference.child("Paramedics").child(special).child(getUid()).setValue(paramedicModel);
+        databaseReference.child("AllUsers").child("Paramedics").child(getUid()).setValue(paramedicModel);
 
         Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
 
@@ -436,7 +321,7 @@ public class PatientProfileFragment extends Fragment
         }
     }
 
-    private void uploadImage(final String fullname, final String email, final String personalid, final String nfcid, final String birthdate, final String closemobile, final String mobile, final int bloodtype, final String address)
+    private void uploadImage(final String fullname, final String email, final String mobile, final String spec, final String address)
     {
         rotateLoading.start();
 
@@ -466,7 +351,7 @@ public class PatientProfileFragment extends Fragment
 
                 selected_placeimaeURL = downloadUri.toString();
 
-                UpdatePatientProfile(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address,selected_placeimaeURL);
+                UpdatePatientProfile(fullname,email,mobile,spec,address,selected_placeimaeURL);
 
                 Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
 
@@ -541,8 +426,8 @@ public class PatientProfileFragment extends Fragment
                 progressDialog.show();
                 progressDialog.setCancelable(false);
 
-                databaseReference.child("Patients").child(nfcid).child(nfcid).removeValue();
-                databaseReference.child("AllUsers").child("Patients").child(getUid()).removeValue();
+                databaseReference.child("Paramedics").child(special).child(getUid()).removeValue();
+                databaseReference.child("AllUsers").child("Paramedics").child(getUid()).removeValue();
 
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

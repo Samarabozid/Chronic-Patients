@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -50,10 +51,14 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
 import mansour.abdullah.el7a2ny.Models.ParamedicModel;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
+import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.Models.DoctorModel;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SignupFragment extends Fragment
 {
@@ -83,6 +88,10 @@ public class SignupFragment extends Fragment
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
+    SharedPreferences loginPreferences;
+    SharedPreferences.Editor loginPrefsEditor;
+    Boolean saveLogin;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -96,6 +105,9 @@ public class SignupFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+
+        loginPreferences = getActivity().getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
 
         doctor_sign_up = view.findViewById(R.id.doctor_sign_up_card);
         patient_sign_up = view.findViewById(R.id.patient_sign_up_card);
@@ -255,6 +267,10 @@ public class SignupFragment extends Fragment
                 //Toast.makeText(getContext(), full_name_txt, Toast.LENGTH_SHORT).show();
 
                 CreateDoctorAccount(email_txt,password_txt,full_name_txt,mobile_txt,specialization_txt,address_txt);
+
+                loginPrefsEditor.putBoolean("savepassword", true);
+                loginPrefsEditor.putString("pass", password_txt);
+                loginPrefsEditor.apply();
 
                 //CustomerRegister(full_name_txt,email_txt,password_txt,mobile_txt,"Customer");
             }
@@ -437,6 +453,10 @@ public class SignupFragment extends Fragment
 
                 CreatePatientAccount(full_name_txt,email_txt,password_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,blood_spinner.getSelectedItemPosition(),address_txt,selectedimageurl);
 
+                loginPrefsEditor.putBoolean("savepassword", true);
+                loginPrefsEditor.putString("pass", password_txt);
+                loginPrefsEditor.apply();
+
                 //CustomerRegister(full_name_txt,email_txt,password_txt,mobile_txt,"Customer");
             }
         });
@@ -593,6 +613,10 @@ public class SignupFragment extends Fragment
 
                 CreateParamedicAccount(email_txt,password_txt,full_name_txt,mobile_txt,hospital_txt,address_txt);
 
+                loginPrefsEditor.putBoolean("savepassword", true);
+                loginPrefsEditor.putString("pass", password_txt);
+                loginPrefsEditor.apply();
+
                 //CustomerRegister(full_name_txt,email_txt,password_txt,mobile_txt,"Customer");
             }
         });
@@ -678,9 +702,9 @@ public class SignupFragment extends Fragment
                 AddDoctortoDB(fullname,email,mobilenumber,specialty,address,selectedimageurl);
                 progressDialog.dismiss();
 
-                /*Intent intent = new Intent(getContext(), PatientMainActivity.class);
-                startActivity(intent);*/
-                Toast.makeText(getContext(), "successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), DoctorMainActivity.class);
+                startActivity(intent);
+                //Toast.makeText(getContext(), "successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -781,9 +805,8 @@ public class SignupFragment extends Fragment
                 AddParamedicoDB(fullname,email,mobilenumber,hospital,address,selectedimageurl);
                 progressDialog.dismiss();
 
-                /*Intent intent = new Intent(getContext(), PatientMainActivity.class);
-                startActivity(intent);*/
-                Toast.makeText(getContext(), "Successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ParamedicMainActivity.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

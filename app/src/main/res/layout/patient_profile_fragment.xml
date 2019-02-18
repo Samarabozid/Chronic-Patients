@@ -119,7 +119,17 @@
                                 android:id="@+id/phonenumber_btn"
                                 android:layout_width="30dp"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/phone"
+                                android:src="@drawable/speech"
+                                android:layout_marginRight="10dp"
+                                android:tint="@android:color/white"
+                                />
+
+                            <ImageView
+                                android:id="@+id/remover_user_btn"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/remove_user"
+                                android:tint="@android:color/white"
                                 />
 
                         </LinearLayout>

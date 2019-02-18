@@ -2,6 +2,7 @@ package mansour.abdullah.el7a2ny;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,8 +32,11 @@ import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.AdminApp.AdminMainActivity;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
+import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SigninFragment extends Fragment
 {
@@ -51,6 +56,11 @@ public class SigninFragment extends Fragment
 
     RotateLoading rotateLoading;
 
+    CheckBox checkBox;
+    SharedPreferences loginPreferences;
+    SharedPreferences.Editor loginPrefsEditor;
+    Boolean saveLogin;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -64,6 +74,9 @@ public class SigninFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        loginPreferences = getActivity().getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -74,6 +87,17 @@ public class SigninFragment extends Fragment
         guest = view.findViewById(R.id.guest_btn);
         admin = view.findViewById(R.id.admin_btn);
         rotateLoading = view.findViewById(R.id.signinrotateloading);
+
+        checkBox = view.findViewById(R.id.remember_me_checkbox);
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+        if (saveLogin)
+        {
+            email.setText(loginPreferences.getString("username", ""));
+            password.setText(loginPreferences.getString("password", ""));
+            checkBox.setChecked(true);
+        }
 
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +122,41 @@ public class SigninFragment extends Fragment
                     rotateLoading.start();
 
                     AdminLogin(email_txt,password_txt);
+
+                    loginPrefsEditor.putBoolean("savepassword", true);
+                    loginPrefsEditor.putString("pass", password_txt);
+                    loginPrefsEditor.apply();
+
+                    if (checkBox.isChecked())
+                    {
+                        loginPrefsEditor.putBoolean("saveLogin", true);
+                        loginPrefsEditor.putString("username", email_txt);
+                        loginPrefsEditor.putString("password", password_txt);
+                        loginPrefsEditor.apply();
+                    } else {
+                        loginPrefsEditor.clear();
+                        loginPrefsEditor.apply();
+                    }
                 } else
                     {
                         rotateLoading.start();
 
                         UserLogin(email_txt,password_txt);
+
+                        loginPrefsEditor.putBoolean("savepassword", true);
+                        loginPrefsEditor.putString("pass", password_txt);
+                        loginPrefsEditor.apply();
+
+                        if (checkBox.isChecked())
+                        {
+                            loginPrefsEditor.putBoolean("saveLogin", true);
+                            loginPrefsEditor.putString("username", email_txt);
+                            loginPrefsEditor.putString("password", password_txt);
+                            loginPrefsEditor.apply();
+                        } else {
+                            loginPrefsEditor.clear();
+                            loginPrefsEditor.apply();
+                        }
                     }
             }
         });
@@ -180,7 +234,8 @@ public class SigninFragment extends Fragment
                                             } else
                                                 {
                                                     rotateLoading.stop();
-                                                    Toast.makeText(getContext(), "paramedic : " + id, Toast.LENGTH_SHORT).show();
+                                                    //Toast.makeText(getContext(), "paramedic : " + id, Toast.LENGTH_SHORT).show();
+                                                    updateParamedicUI();
                                                 }
                                         }
 
@@ -207,6 +262,12 @@ public class SigninFragment extends Fragment
     public void updateDoctorUI()
     {
         Intent intent = new Intent(getContext(), DoctorMainActivity.class);
+        startActivity(intent);
+    }
+
+    public void updateParamedicUI()
+    {
+        Intent intent = new Intent(getContext(), ParamedicMainActivity.class);
         startActivity(intent);
     }
 
