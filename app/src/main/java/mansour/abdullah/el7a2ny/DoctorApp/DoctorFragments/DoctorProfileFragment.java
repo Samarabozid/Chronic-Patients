@@ -1,11 +1,7 @@
 package mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,21 +12,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,16 +47,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.victor.loading.rotate.RotateLoading;
 
-import java.util.Calendar;
-
-import mansour.abdullah.el7a2ny.AbdullahNFCActivity;
 import mansour.abdullah.el7a2ny.Models.DoctorModel;
-import mansour.abdullah.el7a2ny.Models.PatientModel;
-import mansour.abdullah.el7a2ny.NFCActivity;
-import mansour.abdullah.el7a2ny.PateintApp.PatientFragments.PatientProfileFragment;
 import mansour.abdullah.el7a2ny.R;
-import mansour.abdullah.el7a2ny.RegisterActivity;
-import mansour.abdullah.el7a2ny.SignupFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.RegisterActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -75,8 +60,9 @@ public class DoctorProfileFragment extends Fragment
 
     Button edit_profile_btn,signout_btn,savechanges_btn;
 
-    ImageView profilepicture,callmobile,remover_user;
+    ImageView profilepicture,remover_user;
     TextView fullname_txt,nfcid_txt;
+    CardView save_card;
     static EditText email_field,fullname_field,mobile_field,address_field;
     String mobile,profile_image_url,special;
 
@@ -122,11 +108,12 @@ public class DoctorProfileFragment extends Fragment
         signout_btn = view.findViewById(R.id.signout_btn);
         savechanges_btn = view.findViewById(R.id.savechanges_btn);
 
+        save_card = view.findViewById(R.id.save_card);
+
         fullname_txt = view.findViewById(R.id.fullname_txt);
         nfcid_txt = view.findViewById(R.id.nfcid_txt);
 
         profilepicture = view.findViewById(R.id.patient_profile_picture);
-        callmobile = view.findViewById(R.id.phonenumber_btn);
         remover_user = view.findViewById(R.id.remover_user_btn);
 
         email_field = view.findViewById(R.id.email_field);
@@ -143,19 +130,13 @@ public class DoctorProfileFragment extends Fragment
             pass = loginPreferences.getString("pass", "");
         }
 
+        save_card.setVisibility(View.GONE);
         email_field.setEnabled(false);
         fullname_field.setEnabled(false);
         mobile_field.setEnabled(false);
         address_field.setEnabled(false);
         profilepicture.setEnabled(false);
         savechanges_btn.setEnabled(false);
-
-        callmobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialContactPhone(mobile);
-            }
-        });
 
         remover_user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +180,7 @@ public class DoctorProfileFragment extends Fragment
                     return;
                 }
 
+                save_card.setVisibility(View.GONE);
                 fullname_field.setEnabled(false);
                 mobile_field.setEnabled(false);
                 address_field.setEnabled(false);
@@ -242,6 +224,7 @@ public class DoctorProfileFragment extends Fragment
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                save_card.setVisibility(View.VISIBLE);
                 fullname_field.setEnabled(true);
                 mobile_field.setEnabled(true);
                 address_field.setEnabled(true);

@@ -1,6 +1,5 @@
 package mansour.abdullah.el7a2ny.DoctorApp;
 
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -14,9 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments.DoctorProfileFragment;
-import mansour.abdullah.el7a2ny.DoctorsFragment;
-import mansour.abdullah.el7a2ny.PateintApp.PatientFragments.PatientProfileFragment;
-import mansour.abdullah.el7a2ny.PatientsFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.PatientsFragment;
 import mansour.abdullah.el7a2ny.R;
 
 public class DoctorMainActivity extends AppCompatActivity

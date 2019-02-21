@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -52,11 +52,13 @@ import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
+import mansour.abdullah.el7a2ny.GuestApp.GuestActivity;
 import mansour.abdullah.el7a2ny.Models.ParamedicModel;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.Models.DoctorModel;
+import mansour.abdullah.el7a2ny.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -65,7 +67,7 @@ public class SignupFragment extends Fragment
     public static String EXTRA_PROFILE_TAG = "profile_tag";
     View view;
     MaterialRippleLayout doctor_sign_up,patient_sign_up;
-    Button paramedic_btn,guest_btn,admin_btn;
+    Button paramedic_btn,guest_btn;
 
     CircleImageView profile_image;
     static EditText first_name,last_name,email_address,password,phone_number,closest_number,address,nfc_id,personal_id,date_edittext;
@@ -113,7 +115,6 @@ public class SignupFragment extends Fragment
         patient_sign_up = view.findViewById(R.id.patient_sign_up_card);
         paramedic_btn = view.findViewById(R.id.paramedic_sign_up_btn);
         guest_btn = view.findViewById(R.id.guest_btn);
-        admin_btn = view.findViewById(R.id.admin_btn);
 
         auth = FirebaseAuth.getInstance();
 
@@ -146,6 +147,13 @@ public class SignupFragment extends Fragment
             }
         });
 
+        guest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GuestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void showDoctorDialog()
@@ -820,9 +828,9 @@ public class SignupFragment extends Fragment
         });
     }
 
-    private void AddPatienttoDB(String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl)
+    private void AddPatienttoDB(String user_id,String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl)
     {
-        PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
+        PatientModel patientModel = new PatientModel(user_id,fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
 
         databaseReference.child("Patients").child(nfcid).child(nfcid).setValue(patientModel);
         databaseReference.child("AllUsers").child("Patients").child(getUID()).setValue(patientModel);
@@ -838,7 +846,9 @@ public class SignupFragment extends Fragment
                     {
                         if (task.isSuccessful())
                         {
-                            uploadPatientImage(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address);
+                            String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            uploadPatientImage(id,fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address);
                         } else
                         {
                             String error_message = task.getException().getMessage();
@@ -849,7 +859,7 @@ public class SignupFragment extends Fragment
                 });
     }
 
-    private void uploadPatientImage(final String fullname, final String email, final String personalid, final String nfcid, final String birthdate, final String closemobile, final String mobile, final int bloodtype, final String address)
+    private void uploadPatientImage(final String user_id, final String fullname, final String email, final String personalid, final String nfcid, final String birthdate, final String closemobile, final String mobile, final int bloodtype, final String address)
     {
         UploadTask uploadTask;
 
@@ -876,7 +886,7 @@ public class SignupFragment extends Fragment
 
                 selectedimageurl = downloadUri.toString();
 
-                AddPatienttoDB(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address, selectedimageurl);
+                AddPatienttoDB(user_id,fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address, selectedimageurl);
                 progressDialog.dismiss();
 
                 Intent intent = new Intent(getContext(), PatientMainActivity.class);

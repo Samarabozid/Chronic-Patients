@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,10 +34,8 @@ import com.victor.loading.rotate.RotateLoading;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mansour.abdullah.el7a2ny.AdminApp.AdminPatientsDetailsActivity;
-import mansour.abdullah.el7a2ny.DoctorsFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.DoctorsFragment;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
-import mansour.abdullah.el7a2ny.NFCActivity;
-import mansour.abdullah.el7a2ny.PatientDetailsActivity;
 import mansour.abdullah.el7a2ny.R;
 
 public class PatientsFragment extends Fragment
@@ -323,7 +320,7 @@ public class PatientsFragment extends Fragment
         boolean show = toggleArrow(view);
         if (show)
         {
-            expand(lyt_expand_text, new mansour.abdullah.el7a2ny.DoctorsFragment.AnimListener()
+            expand(lyt_expand_text, new DoctorsFragment.AnimListener()
             {
                 @Override
                 public void onFinish()

@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.content.Intent;
 import android.os.Build;
@@ -12,8 +12,6 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +27,7 @@ import mansour.abdullah.el7a2ny.AdminApp.AdminMainActivity;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
+import mansour.abdullah.el7a2ny.R;
 
 public class SplashScreen extends AppCompatActivity
 {
@@ -64,7 +63,7 @@ public class SplashScreen extends AppCompatActivity
                     public void run()
                     {
                         // go to the main activity
-                        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                        Intent i = new Intent(getApplicationContext(), CardWizardActivity.class);
                         startActivity(i);
                         // kill current activity
                         finish();

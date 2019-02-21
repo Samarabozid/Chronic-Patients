@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,12 +17,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.Models.DoctorModel;
+import mansour.abdullah.el7a2ny.R;
 
 public class DoctorDetailsActivity extends AppCompatActivity
 {

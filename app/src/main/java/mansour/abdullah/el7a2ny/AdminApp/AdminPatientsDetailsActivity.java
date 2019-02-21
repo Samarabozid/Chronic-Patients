@@ -2,15 +2,12 @@ package mansour.abdullah.el7a2ny.AdminApp;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -26,13 +23,14 @@ import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.PatientsFragment;
+import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.RequestsFragment;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
-import mansour.abdullah.el7a2ny.NFCActivity;
 import mansour.abdullah.el7a2ny.R;
 
 public class AdminPatientsDetailsActivity extends AppCompatActivity
 {
     String PATIENT_KEY;
+    String NFC_KEY;
 
     CardView scan_card;
 
@@ -55,6 +53,7 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_admin_patients_details);
 
         PATIENT_KEY = getIntent().getStringExtra(PatientsFragment.ADMIN_EXTRA_PATIENT_KEY);
+        NFC_KEY = getIntent().getStringExtra(RequestsFragment.ADMIN_EXTRA_REQUEST_KEY);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -64,8 +63,13 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
 
         rotateLoading.start();
 
-        returndata(PATIENT_KEY);
-
+        if (!TextUtils.isEmpty(NFC_KEY))
+        {
+            returnNFCdata(NFC_KEY);
+        } else
+            {
+                returndata(PATIENT_KEY);
+            }
         callmobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,34 +139,93 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
                         // Get user value
                         PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
 
-                        NFC = patientModel.getNFC_ID();
+                        if (patientModel != null)
+                        {
+                            NFC = patientModel.getNFC_ID();
 
-                        fullname_txt.setText(patientModel.getFullname());
-                        nfcid_txt.setText(patientModel.getNFC_ID());
-                        mobile = patientModel.getMobilenumber();
-                        email_field.setText(patientModel.getEmail());
-                        fullname_field.setText(patientModel.getFullname());
-                        mobile_field.setText(patientModel.getMobilenumber());
-                        closemobile_field.setText(patientModel.getClose_mobile_number());
-                        address_field.setText(patientModel.getAddress());
-                        nfcid_field.setText(NFC);
-                        personalid_field.setText(patientModel.getPersonal_ID());
-                        birthday_field.setText(patientModel.getBirthdate());
-                        bloodtypes.setSelection(patientModel.getBloodtypes());
+                            fullname_txt.setText(patientModel.getFullname());
+                            nfcid_txt.setText(patientModel.getNFC_ID());
+                            mobile = patientModel.getMobilenumber();
+                            email_field.setText(patientModel.getEmail());
+                            fullname_field.setText(patientModel.getFullname());
+                            mobile_field.setText(patientModel.getMobilenumber());
+                            closemobile_field.setText(patientModel.getClose_mobile_number());
+                            address_field.setText(patientModel.getAddress());
+                            nfcid_field.setText(NFC);
+                            personalid_field.setText(patientModel.getPersonal_ID());
+                            birthday_field.setText(patientModel.getBirthdate());
+                            bloodtypes.setSelection(patientModel.getBloodtypes());
 
-                        medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
-                        pharmaceutical_field.setText(patientModel.getPharmaceutical());
+                            medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
+                            pharmaceutical_field.setText(patientModel.getPharmaceutical());
 
-                        profile_image_url = patientModel.getImageurl();
+                            profile_image_url = patientModel.getImageurl();
 
 
-                        Picasso.get()
-                                .load(profile_image_url)
-                                .placeholder(R.drawable.patient2)
-                                .error(R.drawable.patient2)
-                                .into(profilepicture);
+                            Picasso.get()
+                                    .load(profile_image_url)
+                                    .placeholder(R.drawable.patient2)
+                                    .error(R.drawable.patient2)
+                                    .into(profilepicture);
 
+                            rotateLoading.stop();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError)
+                    {
+                        Toast.makeText(getApplicationContext(), "can\'t fetch data", Toast.LENGTH_SHORT).show();
                         rotateLoading.stop();
+                    }
+                });
+    }
+
+    public void returnNFCdata(String nfc)
+    {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.keepSynced(true);
+
+        mDatabase.child("Patients").child(nfc).child(nfc).addListenerForSingleValueEvent(
+                new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+                        // Get user value
+                        PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
+
+                        if (patientModel != null)
+                        {
+                            NFC = patientModel.getNFC_ID();
+
+                            fullname_txt.setText(patientModel.getFullname());
+                            nfcid_txt.setText(patientModel.getNFC_ID());
+                            mobile = patientModel.getMobilenumber();
+                            email_field.setText(patientModel.getEmail());
+                            fullname_field.setText(patientModel.getFullname());
+                            mobile_field.setText(patientModel.getMobilenumber());
+                            closemobile_field.setText(patientModel.getClose_mobile_number());
+                            address_field.setText(patientModel.getAddress());
+                            nfcid_field.setText(NFC);
+                            personalid_field.setText(patientModel.getPersonal_ID());
+                            birthday_field.setText(patientModel.getBirthdate());
+                            bloodtypes.setSelection(patientModel.getBloodtypes());
+
+                            medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
+                            pharmaceutical_field.setText(patientModel.getPharmaceutical());
+
+                            profile_image_url = patientModel.getImageurl();
+
+
+                            Picasso.get()
+                                    .load(profile_image_url)
+                                    .placeholder(R.drawable.patient2)
+                                    .error(R.drawable.patient2)
+                                    .into(profilepicture);
+
+                            rotateLoading.stop();
+                        }
                     }
 
                     @Override

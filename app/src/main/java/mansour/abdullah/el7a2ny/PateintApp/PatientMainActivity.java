@@ -1,6 +1,5 @@
 package mansour.abdullah.el7a2ny.PateintApp;
 
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -13,12 +12,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments.DoctorProfileFragment;
-import mansour.abdullah.el7a2ny.DoctorsFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.DoctorsFragment;
 import mansour.abdullah.el7a2ny.PateintApp.PatientFragments.PatientProfileFragment;
 import mansour.abdullah.el7a2ny.R;
-import mansour.abdullah.el7a2ny.RegisterActivity;
-import mansour.abdullah.el7a2ny.SignupFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.SignupFragment;
 
 public class PatientMainActivity extends AppCompatActivity
 {

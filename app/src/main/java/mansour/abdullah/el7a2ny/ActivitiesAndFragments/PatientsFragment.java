@@ -1,10 +1,12 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,22 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -37,10 +34,10 @@ import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import mansour.abdullah.el7a2ny.Models.DoctorModel;
+import mansour.abdullah.el7a2ny.Models.PatientModel;
 import mansour.abdullah.el7a2ny.R;
 
-public class DoctorsFragment extends Fragment
+public class PatientsFragment extends Fragment
 {
     View view;
 
@@ -49,29 +46,31 @@ public class DoctorsFragment extends Fragment
     ImageView imageView;
     private LinearLayout lyt_expand_text;
 
+    FloatingActionButton nfc_activity_btn;
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    FirebaseRecyclerAdapter<DoctorModel, DoctorsViewHolder> firebaseRecyclerAdapter;
+    FirebaseRecyclerAdapter<PatientModel, PatientsViewHolder> firebaseRecyclerAdapter;
 
-    FirebaseRecyclerAdapter<DoctorModel, DoctorsViewHolder> firebaseRecyclerAdapterSpecialty;
+    FirebaseRecyclerAdapter<PatientModel, PatientsViewHolder> firebaseRecyclerAdapterSpecialty;
 
-    Spinner specialization_spinner;
+    EditText nfc_id;
     Button filter_search_btn,clear_filter_btn;
     TextView filter_txt;
-    String specialization_txt;
+    String nfc_txt;
 
     RotateLoading rotateLoading;
 
-    final static String EXTRA_DOCTOR_KEY = "doctor_key";
+    final static String EXTRA_PATIENT_KEY = "patient_key";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.doctors_fragment, container, false);
+        view = inflater.inflate(R.layout.patient_fragment, container, false);
 
         return view;
     }
@@ -83,6 +82,17 @@ public class DoctorsFragment extends Fragment
 
         recyclerView = view.findViewById(R.id.doctors_recyclerview);
         rotateLoading = view.findViewById(R.id.rotateloading);
+        nfc_activity_btn = view.findViewById(R.id.nfc_activity_btn);
+
+        nfc_activity_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getContext(), NFCActivity.class);
+                startActivity(intent);
+            }
+        });
 
         rotateLoading.start();
 
@@ -99,29 +109,7 @@ public class DoctorsFragment extends Fragment
 
         initComponent();
 
-        specialization_spinner = view.findViewById(R.id.specialization_spinner);
-
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getContext(),
-                R.array.department, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        specialization_spinner.setAdapter(adapter1);
-
-        specialization_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                specialization_txt = String.valueOf(parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
-        });
+        nfc_id = view.findViewById(R.id.nfc_id_field);
     }
 
     private void DisplayallDoctors()
@@ -129,18 +117,18 @@ public class DoctorsFragment extends Fragment
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("AllUsers")
-                .child("Doctors")
+                .child("Patients")
                 .limitToLast(50);
 
-        FirebaseRecyclerOptions<DoctorModel> options =
-                new FirebaseRecyclerOptions.Builder<DoctorModel>()
-                        .setQuery(query, DoctorModel.class)
+        FirebaseRecyclerOptions<PatientModel> options =
+                new FirebaseRecyclerOptions.Builder<PatientModel>()
+                        .setQuery(query, PatientModel.class)
                         .build();
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<DoctorModel, DoctorsViewHolder>(options)
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<PatientModel, PatientsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull DoctorsViewHolder holder, int position, @NonNull final DoctorModel model)
+            protected void onBindViewHolder(@NonNull PatientsViewHolder holder, int position, @NonNull final PatientModel model)
             {
                 rotateLoading.stop();
 
@@ -160,8 +148,8 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
-                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
+                        intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
                 });
@@ -171,52 +159,42 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
-                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
+                        intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
                 });
-
-                /*holder.company_details.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        Intent intent = new Intent(getContext(), CompanyDetailsActivity.class);
-                        intent.putExtra(EXTRA_COMPANY_KEY, companykey);
-                        startActivity(intent);
-                    }
-                });*/
             }
 
             @NonNull
             @Override
-            public DoctorsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+            public PatientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
             {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.doctor_item, parent, false);
-                return new DoctorsViewHolder(view);
+                return new PatientsViewHolder(view);
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        rotateLoading.stop();
     }
 
-    private void DisplayallDoctorsbySpecialty(String specialty)
+    private void DisplayallDoctorsbySpecialty(String nfc_id)
     {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("Doctors")
-                .child(specialty)
+                .child("Patients")
+                .child(nfc_id)
                 .limitToLast(50);
 
-        FirebaseRecyclerOptions<DoctorModel> options =
-                new FirebaseRecyclerOptions.Builder<DoctorModel>()
-                        .setQuery(query, DoctorModel.class)
+        FirebaseRecyclerOptions<PatientModel> options =
+                new FirebaseRecyclerOptions.Builder<PatientModel>()
+                        .setQuery(query, PatientModel.class)
                         .build();
 
-        firebaseRecyclerAdapterSpecialty = new FirebaseRecyclerAdapter<DoctorModel, DoctorsViewHolder>(options)
+        firebaseRecyclerAdapterSpecialty = new FirebaseRecyclerAdapter<PatientModel, PatientsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull DoctorsViewHolder holder, int position, @NonNull final DoctorModel model)
+            protected void onBindViewHolder(@NonNull PatientsViewHolder holder, int position, @NonNull final PatientModel model)
             {
                 rotateLoading.stop();
 
@@ -236,8 +214,8 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
-                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
+                        intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
                 });
@@ -247,8 +225,8 @@ public class DoctorsFragment extends Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(getContext(), DoctorDetailsActivity.class);
-                        intent.putExtra(EXTRA_DOCTOR_KEY, key);
+                        Intent intent = new Intent(getContext(), PatientDetailsActivity.class);
+                        intent.putExtra(EXTRA_PATIENT_KEY, key);
                         startActivity(intent);
                     }
                 });
@@ -267,10 +245,10 @@ public class DoctorsFragment extends Fragment
 
             @NonNull
             @Override
-            public DoctorsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+            public PatientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
             {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.doctor_item, parent, false);
-                return new DoctorsViewHolder(view);
+                return new PatientsViewHolder(view);
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapterSpecialty);
@@ -309,12 +287,16 @@ public class DoctorsFragment extends Fragment
                     firebaseRecyclerAdapter.startListening();
 
                     filter_txt.setText("Filter");
+                    nfc_id.setText("");
 
                     firebaseRecyclerAdapterSpecialty = null;
+
+                    hideSoftKeyboard(nfc_id);
                 } else
-                    {
-                        Toast.makeText(getContext(), "there's no filter to clear", Toast.LENGTH_SHORT).show();
-                    }
+                {
+                    Toast.makeText(getContext(), "there's no filter to clear", Toast.LENGTH_SHORT).show();
+                    hideSoftKeyboard(nfc_id);
+                }
             }
         });
 
@@ -323,27 +305,33 @@ public class DoctorsFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                if (firebaseRecyclerAdapterSpecialty != null || specialization_txt.length() != 0)
+                nfc_txt = nfc_id.getText().toString();
+
+                if (firebaseRecyclerAdapterSpecialty != null || nfc_txt.length() != 0)
                 {
-                    if (specialization_txt.length() != 0)
+                    if (nfc_txt.length() != 0)
                     {
                         toggleSectionText(imageView);
 
                         firebaseRecyclerAdapter.stopListening();
 
-                        DisplayallDoctorsbySpecialty(specialization_txt);
+                        DisplayallDoctorsbySpecialty(nfc_txt);
 
                         firebaseRecyclerAdapterSpecialty.startListening();
 
-                        filter_txt.setText("Filter by Specialization (" + specialization_txt + ")" );
+                        filter_txt.setText("Filter by NFC ID (" + nfc_txt + ")" );
+
+                        hideSoftKeyboard(nfc_id);
                     } else
-                        {
-                            Toast.makeText(getContext(), "please select filter to search", Toast.LENGTH_SHORT).show();
-                        }
-                } else
                     {
                         Toast.makeText(getContext(), "please select filter to search", Toast.LENGTH_SHORT).show();
+                        hideSoftKeyboard(nfc_id);
                     }
+                } else
+                {
+                    Toast.makeText(getContext(), "please select filter to search", Toast.LENGTH_SHORT).show();
+                    hideSoftKeyboard(nfc_id);
+                }
             }
         });
 
@@ -356,7 +344,7 @@ public class DoctorsFragment extends Fragment
         boolean show = toggleArrow(view);
         if (show)
         {
-            expand(lyt_expand_text, new AnimListener()
+            expand(lyt_expand_text, new DoctorsFragment.AnimListener()
             {
                 @Override
                 public void onFinish()
@@ -365,9 +353,9 @@ public class DoctorsFragment extends Fragment
                 }
             });
         } else
-            {
+        {
             collapse(lyt_expand_text);
-            }
+        }
     }
 
     public boolean toggleArrow(View view)
@@ -391,7 +379,7 @@ public class DoctorsFragment extends Fragment
         });
     }
 
-    public static void expand(final View v, final AnimListener animListener)
+    public static void expand(final View v, final DoctorsFragment.AnimListener animListener)
     {
         Animation a = expandAction(v);
         a.setAnimationListener(new Animation.AnimationListener() {
@@ -469,7 +457,7 @@ public class DoctorsFragment extends Fragment
         return a;
     }
 
-    public static class DoctorsViewHolder extends RecyclerView.ViewHolder
+    public static class PatientsViewHolder extends RecyclerView.ViewHolder
     {
         ImageView doctor_mobile;
         CircleImageView doctor_picture;
@@ -477,7 +465,7 @@ public class DoctorsFragment extends Fragment
         MaterialRippleLayout doctor_details;
         Button view_profile_btn;
 
-        DoctorsViewHolder(View itemView)
+        PatientsViewHolder(View itemView)
         {
             super(itemView);
 
@@ -489,13 +477,13 @@ public class DoctorsFragment extends Fragment
             view_profile_btn = itemView.findViewById(R.id.view_profile_btn);
         }
 
-        void BindPlaces(final DoctorModel doctorModel)
+        void BindPlaces(final PatientModel patientModel)
         {
-            doctor_name.setText(doctorModel.getFullname());
-            doctor_specailty.setText(doctorModel.getSpecialization());
+            doctor_name.setText(patientModel.getFullname());
+            doctor_specailty.setText(patientModel.getNFC_ID());
 
             Picasso.get()
-                    .load(doctorModel.getImageurl())
+                    .load(patientModel.getImageurl())
                     .placeholder(R.drawable.doctor2)
                     .error(R.drawable.doctor2)
                     .into(doctor_picture);
@@ -537,5 +525,11 @@ public class DoctorsFragment extends Fragment
     private void dialContactPhone(final String phoneNumber)
     {
         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+    }
+
+    protected void hideSoftKeyboard(EditText input)
+    {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
     }
 }

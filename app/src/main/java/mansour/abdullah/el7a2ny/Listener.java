@@ -1,5 +1,7 @@
 package mansour.abdullah.el7a2ny;
 
+import android.content.Intent;
+
 public interface Listener
 {
     void onDialogDisplayed();
@@ -15,4 +17,6 @@ public interface Listener
     void patient_bloodtype (String bloodtype);
 
     void patient_disease (String disease);
+
+    void onNewIntent(Intent intent);
 }

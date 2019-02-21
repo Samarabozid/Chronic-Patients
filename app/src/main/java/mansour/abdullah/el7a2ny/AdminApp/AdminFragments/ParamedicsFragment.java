@@ -34,7 +34,7 @@ import com.victor.loading.rotate.RotateLoading;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mansour.abdullah.el7a2ny.AdminApp.AdminDoctorsAndParamedicsDetailsActivity;
-import mansour.abdullah.el7a2ny.Models.DoctorModel;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.DoctorsFragment;
 import mansour.abdullah.el7a2ny.Models.ParamedicModel;
 import mansour.abdullah.el7a2ny.R;
 
@@ -249,6 +249,7 @@ public class ParamedicsFragment extends Fragment
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapterSpecialty);
+        rotateLoading.stop();
     }
 
     private void initComponent()
@@ -331,7 +332,7 @@ public class ParamedicsFragment extends Fragment
         boolean show = toggleArrow(view);
         if (show)
         {
-            expand(lyt_expand_text, new mansour.abdullah.el7a2ny.DoctorsFragment.AnimListener()
+            expand(lyt_expand_text, new DoctorsFragment.AnimListener()
             {
                 @Override
                 public void onFinish()
@@ -366,7 +367,7 @@ public class ParamedicsFragment extends Fragment
         });
     }
 
-    public static void expand(final View v, final mansour.abdullah.el7a2ny.DoctorsFragment.AnimListener animListener)
+    public static void expand(final View v, final DoctorsFragment.AnimListener animListener)
     {
         Animation a = expandAction(v);
         a.setAnimationListener(new Animation.AnimationListener() {

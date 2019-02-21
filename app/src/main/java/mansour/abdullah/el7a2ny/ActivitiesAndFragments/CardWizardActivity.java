@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
+import mansour.abdullah.el7a2ny.R;
 
 public class CardWizardActivity extends AppCompatActivity
 {

@@ -2,18 +2,18 @@ package mansour.abdullah.el7a2ny.Models;
 
 public class LocationModel
 {
-    String nfc_id,name,emergency,bloodtype,disease,latitude,longitude;
+    String nfc_id,name,emergency,bloodtype,disease,notes,latitude,longitude;
 
     public LocationModel() {
     }
 
-    public LocationModel(String nfc_id, String name, String emergency, String bloodtype, String disease, String latitude, String longitude)
-    {
+    public LocationModel(String nfc_id, String name, String emergency, String bloodtype, String disease, String notes, String latitude, String longitude) {
         this.nfc_id = nfc_id;
         this.name = name;
         this.emergency = emergency;
         this.bloodtype = bloodtype;
         this.disease = disease;
+        this.notes = notes;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -56,6 +56,14 @@ public class LocationModel
 
     public void setDisease(String disease) {
         this.disease = disease;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getLatitude() {

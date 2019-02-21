@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,6 +32,7 @@ import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.AdminApp.AdminMainActivity;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
+import mansour.abdullah.el7a2ny.GuestApp.GuestActivity;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicMainActivity;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.R;
@@ -43,7 +44,7 @@ public class SigninFragment extends Fragment
     View view;
 
     EditText email,password;
-    Button sign_in,guest,admin;
+    Button sign_in,guest;
 
     String email_txt,password_txt;
 
@@ -85,7 +86,6 @@ public class SigninFragment extends Fragment
         password = view.findViewById(R.id.password_field);
         sign_in = view.findViewById(R.id.sign_in_btn);
         guest = view.findViewById(R.id.guest_btn);
-        admin = view.findViewById(R.id.admin_btn);
         rotateLoading = view.findViewById(R.id.signinrotateloading);
 
         checkBox = view.findViewById(R.id.remember_me_checkbox);
@@ -161,6 +161,15 @@ public class SigninFragment extends Fragment
             }
         });
 
+        guest.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getContext(), GuestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void UserLogin(String email, String password)

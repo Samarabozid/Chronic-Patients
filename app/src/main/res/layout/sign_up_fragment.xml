@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="20dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_marginTop="30dp"
@@ -44,7 +44,6 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:src="@drawable/doctor2"
-                        android:layout_marginBottom="20dp"
                         android:padding="10dp"
                         />
 
@@ -70,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="20dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_marginTop="30dp"
@@ -97,7 +96,6 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:src="@drawable/patient2"
-                        android:layout_marginBottom="20dp"
                         android:padding="10dp"
                         />
 
@@ -122,8 +120,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="20dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
@@ -151,80 +149,38 @@
 
         </android.support.v7.widget.CardView>
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="30dp"
             >
 
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/RippleStyleWhite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="20dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginBottom="30dp"
                 >
 
-                <com.balysv.materialripple.MaterialRippleLayout
-                    style="@style/RippleStyleWhite"
+                <Button
+                    android:id="@+id/guest_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    >
+                    android:text="go as guest"
+                    android:background="@color/colorAccent"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    />
 
-                    <Button
-                        android:id="@+id/guest_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="go as guest"
-                        android:background="@color/colorAccent"
-                        android:textColor="#fff"
-                        android:textStyle="bold"
-                        />
+            </com.balysv.materialripple.MaterialRippleLayout>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="20dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="30dp"
-                >
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    style="@style/RippleStyleWhite"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    >
-
-                    <Button
-                        android:id="@+id/admin_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="go as admin"
-                        android:background="@color/colorAccent"
-                        android:textColor="#fff"
-                        android:textStyle="bold"
-                        />
-
-                </com.balysv.materialripple.MaterialRippleLayout>
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

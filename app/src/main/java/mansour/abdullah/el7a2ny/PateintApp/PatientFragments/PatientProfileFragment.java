@@ -1,6 +1,5 @@
 package mansour.abdullah.el7a2ny.PateintApp.PatientFragments;
 
-import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -16,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,11 +55,8 @@ import com.victor.loading.rotate.RotateLoading;
 import java.util.Calendar;
 
 import mansour.abdullah.el7a2ny.Models.PatientModel;
-import mansour.abdullah.el7a2ny.NFCActivity;
-import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
 import mansour.abdullah.el7a2ny.R;
-import mansour.abdullah.el7a2ny.RegisterActivity;
-import mansour.abdullah.el7a2ny.SignupFragment;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.RegisterActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -70,8 +67,9 @@ public class PatientProfileFragment extends Fragment
 
     Button edit_profile_btn,signout_btn,savechanges_btn;
 
-    ImageView profilepicture,callmobile,datepick,remover_user;
+    ImageView profilepicture,datepick,remover_user;
     TextView fullname_txt,nfcid_txt;
+    CardView save_card;
     static EditText email_field,fullname_field,mobile_field,closemobile_field,address_field,nfcid_field,personalid_field,birthday_field,medicaldiagnosis_field,pharmaceutical_field;
     Spinner bloodtypes;
     String mobile,profile_image_url;
@@ -118,11 +116,12 @@ public class PatientProfileFragment extends Fragment
         signout_btn = view.findViewById(R.id.signout_btn);
         savechanges_btn = view.findViewById(R.id.savechanges_btn);
 
+        save_card = view.findViewById(R.id.save_card);
+
         fullname_txt = view.findViewById(R.id.fullname_txt);
         nfcid_txt = view.findViewById(R.id.nfcid_txt);
 
         profilepicture = view.findViewById(R.id.patient_profile_picture);
-        callmobile = view.findViewById(R.id.phonenumber_btn);
         datepick = view.findViewById(R.id.date_picker);
         remover_user = view.findViewById(R.id.remover_user_btn);
 
@@ -154,6 +153,7 @@ public class PatientProfileFragment extends Fragment
             pass = loginPreferences.getString("pass", "");
         }
 
+        save_card.setVisibility(View.GONE);
         bloodtypes.setEnabled(false);
         email_field.setEnabled(false);
         fullname_field.setEnabled(false);
@@ -168,13 +168,6 @@ public class PatientProfileFragment extends Fragment
         pharmaceutical_field.setEnabled(false);
         profilepicture.setEnabled(false);
         savechanges_btn.setEnabled(false);
-
-        callmobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialContactPhone(mobile);
-            }
-        });
 
         remover_user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +245,7 @@ public class PatientProfileFragment extends Fragment
                     return;
                 }
 
+                save_card.setVisibility(View.GONE);
                 bloodtypes.setEnabled(false);
                 fullname_field.setEnabled(false);
                 mobile_field.setEnabled(false);
@@ -269,10 +263,10 @@ public class PatientProfileFragment extends Fragment
 
                 if (photoPath == null)
                 {
-                    UpdatePatientProfile(full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt,profile_image_url);
+                    UpdatePatientProfile(getUid(),full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt,profile_image_url);
                 } else
                     {
-                        uploadImage(full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt);
+                        uploadImage(getUid(), full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt);
                     }
             }
         });
@@ -311,6 +305,7 @@ public class PatientProfileFragment extends Fragment
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                save_card.setVisibility(View.VISIBLE);
                 fullname_field.setEnabled(true);
                 mobile_field.setEnabled(true);
                 closemobile_field.setEnabled(true);
@@ -421,11 +416,11 @@ public class PatientProfileFragment extends Fragment
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void UpdatePatientProfile(String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl)
+    public void UpdatePatientProfile(String user_id, String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl)
     {
-        PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
+        PatientModel patientModel = new PatientModel(user_id,fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,"","",bloodtype);
 
-        databaseReference.child("Patients").child(nfcid).child(getUid()).setValue(patientModel);
+        databaseReference.child("Patients").child(nfcid).child(nfcid).setValue(patientModel);
         databaseReference.child("AllUsers").child("Patients").child(getUid()).setValue(patientModel);
 
         Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
@@ -436,7 +431,7 @@ public class PatientProfileFragment extends Fragment
         }
     }
 
-    private void uploadImage(final String fullname, final String email, final String personalid, final String nfcid, final String birthdate, final String closemobile, final String mobile, final int bloodtype, final String address)
+    private void uploadImage(final String user_id, final String fullname, final String email, final String personalid, final String nfcid, final String birthdate, final String closemobile, final String mobile, final int bloodtype, final String address)
     {
         rotateLoading.start();
 
@@ -466,7 +461,7 @@ public class PatientProfileFragment extends Fragment
 
                 selected_placeimaeURL = downloadUri.toString();
 
-                UpdatePatientProfile(fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address,selected_placeimaeURL);
+                UpdatePatientProfile(user_id,fullname, email, personalid, nfcid, birthdate, closemobile, mobile, bloodtype, address,selected_placeimaeURL);
 
                 Toast.makeText(getContext(), "saved", Toast.LENGTH_SHORT).show();
 

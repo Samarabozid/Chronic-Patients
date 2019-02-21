@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import mansour.abdullah.el7a2ny.Listener;
-import mansour.abdullah.el7a2ny.NFCActivity;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.NFCActivity;
 import mansour.abdullah.el7a2ny.R;
 
 public class NFCWriteFragment extends DialogFragment
@@ -87,6 +87,7 @@ public class NFCWriteFragment extends DialogFragment
                 ndef.close();
                 //Write Successful
                 mTvMessage.setText(getString(R.string.message_write_success));
+                dismiss();
 
             } catch (IOException | FormatException e)
             {

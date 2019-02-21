@@ -34,7 +34,6 @@ import com.victor.loading.rotate.RotateLoading;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import mansour.abdullah.el7a2ny.AdminApp.AdminDoctorsAndParamedicsDetailsActivity;
-import mansour.abdullah.el7a2ny.DoctorDetailsActivity;
 import mansour.abdullah.el7a2ny.Models.DoctorModel;
 import mansour.abdullah.el7a2ny.R;
 
@@ -75,7 +74,8 @@ public class DoctorsFragment extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
         recyclerView = view.findViewById(R.id.doctors_recyclerview);
@@ -184,6 +184,7 @@ public class DoctorsFragment extends Fragment
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        rotateLoading.stop();
     }
 
     private void DisplayallDoctorsbySpecialty(String specialty)
@@ -331,7 +332,7 @@ public class DoctorsFragment extends Fragment
         boolean show = toggleArrow(view);
         if (show)
         {
-            expand(lyt_expand_text, new mansour.abdullah.el7a2ny.DoctorsFragment.AnimListener()
+            expand(lyt_expand_text, new mansour.abdullah.el7a2ny.ActivitiesAndFragments.DoctorsFragment.AnimListener()
             {
                 @Override
                 public void onFinish()
@@ -366,7 +367,7 @@ public class DoctorsFragment extends Fragment
         });
     }
 
-    public static void expand(final View v, final mansour.abdullah.el7a2ny.DoctorsFragment.AnimListener animListener)
+    public static void expand(final View v, final mansour.abdullah.el7a2ny.ActivitiesAndFragments.DoctorsFragment.AnimListener animListener)
     {
         Animation a = expandAction(v);
         a.setAnimationListener(new Animation.AnimationListener() {

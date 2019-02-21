@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.DoctorsFragment;
 import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.ParamedicsFragment;
 import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.PatientsFragment;
+import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.ProfileFragment;
 import mansour.abdullah.el7a2ny.AdminApp.AdminFragments.RequestsFragment;
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments.DoctorProfileFragment;
 import mansour.abdullah.el7a2ny.R;
@@ -67,6 +68,11 @@ public class AdminMainActivity extends AppCompatActivity
                         //navigation.setBackgroundColor(getResources().getColor(R.color.blue_grey_700));
                         Fragment paramedicsFragment = new ParamedicsFragment();
                         loadFragment(paramedicsFragment);
+                        return true;
+                    case R.id.admin_profile:
+                        //navigation.setBackgroundColor(getResources().getColor(R.color.blue_grey_700));
+                        Fragment profileFragment = new ProfileFragment();
+                        loadFragment(profileFragment);
                         return true;
                 }
                 return false;

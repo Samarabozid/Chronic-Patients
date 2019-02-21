@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,10 +13,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,23 +22,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.DoctorApp.DoctorMainActivity;
+import mansour.abdullah.el7a2ny.Listener;
 import mansour.abdullah.el7a2ny.Models.PatientModel;
 import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment;
 import mansour.abdullah.el7a2ny.NFCFragments.NFCWriteFragment;
 import mansour.abdullah.el7a2ny.PateintApp.PatientMainActivity;
+import mansour.abdullah.el7a2ny.R;
 
 public class NFCActivity extends AppCompatActivity implements Listener
 {
     String nfc_id;
 
     public static final String TAG = PatientMainActivity.class.getSimpleName();
-    final static String EXTRA_PATIENT_KEY2 = "details_key";
 
-    private EditText mEtMessage;
+    public static final String NFC_PATIENT = "nfc_patient_id";
+
     private Button mBtWrite;
     private Button mBtRead;
 
@@ -166,13 +165,15 @@ public class NFCActivity extends AppCompatActivity implements Listener
             @Override
             public void onClick(View v)
             {
-                if (TextUtils.isEmpty(nfc_id))
+                String nfc2 = patient_nfc.getText().toString();
+
+                if (TextUtils.isEmpty(nfc2))
                 {
                     Toast.makeText(getApplicationContext(), "please sure that you scanned NFC", Toast.LENGTH_SHORT).show();
                 } else
                     {
                         Intent intent = new Intent(getApplicationContext(), PatientDetailsActivity.class);
-                        intent.putExtra(EXTRA_PATIENT_KEY2, nfc_id);
+                        intent.putExtra(NFC_PATIENT, nfc2);
                         startActivity(intent);
                     }
             }
@@ -325,7 +326,7 @@ public class NFCActivity extends AppCompatActivity implements Listener
     }
 
     @Override
-    protected void onNewIntent(Intent intent)
+    public void onNewIntent(Intent intent)
     {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 

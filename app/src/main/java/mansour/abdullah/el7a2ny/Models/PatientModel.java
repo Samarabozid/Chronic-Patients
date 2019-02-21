@@ -2,13 +2,14 @@ package mansour.abdullah.el7a2ny.Models;
 
 public class PatientModel
 {
-    private String fullname,email,personal_ID,NFC_ID,birthdate,close_mobile_number,mobilenumber,address,imageurl,Medical_diagnosis,pharmaceutical;
+    private String patient_user_id,fullname,email,personal_ID,NFC_ID,birthdate,close_mobile_number,mobilenumber,address,imageurl,Medical_diagnosis,pharmaceutical;
     private int bloodtypes;
 
     public PatientModel() {
     }
 
-    public PatientModel(String fullname, String email, String personal_ID, String NFC_ID, String birthdate, String close_mobile_number, String mobilenumber, String address, String imageurl, String medical_diagnosis, String pharmaceutical, int bloodtypes) {
+    public PatientModel(String patient_user_id, String fullname, String email, String personal_ID, String NFC_ID, String birthdate, String close_mobile_number, String mobilenumber, String address, String imageurl, String medical_diagnosis, String pharmaceutical, int bloodtypes) {
+        this.patient_user_id = patient_user_id;
         this.fullname = fullname;
         this.email = email;
         this.personal_ID = personal_ID;
@@ -18,9 +19,17 @@ public class PatientModel
         this.mobilenumber = mobilenumber;
         this.address = address;
         this.imageurl = imageurl;
-        this.Medical_diagnosis = medical_diagnosis;
+        Medical_diagnosis = medical_diagnosis;
         this.pharmaceutical = pharmaceutical;
         this.bloodtypes = bloodtypes;
+    }
+
+    public String getPatient_user_id() {
+        return patient_user_id;
+    }
+
+    public void setPatient_user_id(String patient_user_id) {
+        this.patient_user_id = patient_user_id;
     }
 
     public String getFullname() {

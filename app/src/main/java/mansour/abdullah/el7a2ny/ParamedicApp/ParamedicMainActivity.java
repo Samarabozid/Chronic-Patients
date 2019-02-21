@@ -12,10 +12,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import mansour.abdullah.el7a2ny.DoctorApp.DoctorFragments.DoctorProfileFragment;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicFragments.ParamedicNFC;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicFragments.ParamedicProfileFragment;
-import mansour.abdullah.el7a2ny.PatientsFragment;
 import mansour.abdullah.el7a2ny.R;
 
 public class ParamedicMainActivity extends AppCompatActivity

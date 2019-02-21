@@ -25,4 +25,10 @@
         android:title="doctors"
         />
 
+    <item
+        android:id="@+id/admin_profile"
+        android:icon="@drawable/profile"
+        android:title="profile"
+        />
+
 </menu>

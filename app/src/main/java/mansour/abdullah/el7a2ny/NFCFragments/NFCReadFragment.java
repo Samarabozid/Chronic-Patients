@@ -1,7 +1,6 @@
 package mansour.abdullah.el7a2ny.NFCFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.FormatException;
@@ -14,17 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import mansour.abdullah.el7a2ny.Listener;
-import mansour.abdullah.el7a2ny.NFCActivity;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.NFCActivity;
 import mansour.abdullah.el7a2ny.R;
-import mansour.abdullah.el7a2ny.RegisterActivity;
 
 public class NFCReadFragment extends DialogFragment
 {

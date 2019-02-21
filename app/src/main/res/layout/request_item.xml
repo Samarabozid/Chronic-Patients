@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/details_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/RippleStyleGrey"
+            >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/doctor_profile_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/planetearth"
+                    android:layout_marginRight="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/doctor_fullname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Abdullah Mansour"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/doctor_specialty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android Developer"
+                        android:textColor="#000"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/disease_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android Developer"
+                        android:textColor="#000"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/note_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android Developer"
+                        android:textColor="#000"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="15dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="120dp"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_marginRight="10dp"
+                            >
+
+                            <com.balysv.materialripple.MaterialRippleLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/RippleStyleWhite"
+                                >
+
+                                <Button
+                                    android:id="@+id/view_profile_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="view profile"
+                                    android:textSize="12sp"
+                                    android:background="@color/colorAccent"
+                                    android:textColor="#fff"
+                                    android:padding="5dp"
+                                    />
+
+                            </com.balysv.materialripple.MaterialRippleLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <ImageView
+                            android:id="@+id/phonenumber_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/phone"
+                            android:tint="@android:color/black"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

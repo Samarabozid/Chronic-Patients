@@ -1,4 +1,4 @@
-package mansour.abdullah.el7a2ny;
+package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,11 +26,12 @@ import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import mansour.abdullah.el7a2ny.Models.PatientModel;
+import mansour.abdullah.el7a2ny.R;
 
 public class PatientDetailsActivity extends AppCompatActivity
 {
     String PATIENT_KEY;
-    String PATIENT_NFC;
+    String patient_nfc_scanned_id;
 
     public static String PATIENT_NFC_KEY = "patient_nfc_key";
     /*public static String PATIENT_NAME_KEY = "patient_nfc_key";
@@ -46,9 +46,10 @@ public class PatientDetailsActivity extends AppCompatActivity
 
     ImageView profilepicture,callmobile,datepick;
     TextView fullname_txt,nfcid_txt;
+    CardView save_card;
     EditText email_field,fullname_field,mobile_field,closemobile_field,address_field,nfcid_field,personalid_field,birthday_field,medicaldiagnosis_field,pharmaceutical_field;
     Spinner bloodtypes;
-    String mobile,profile_image_url,NFC;
+    String mobile,profile_image_url,NFC,user_id;
     String full_name_txt,email_txt,mobile_txt,address_txt,closest_txt,nfc_id_txt,personal_id_txt,date_txt;
 
     String medicaldiagnosis_txt,pharmaceutical_txt;
@@ -65,7 +66,7 @@ public class PatientDetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_patinet_details);
 
         PATIENT_KEY = getIntent().getStringExtra(PatientsFragment.EXTRA_PATIENT_KEY);
-        PATIENT_NFC = getIntent().getStringExtra(NFCActivity.EXTRA_PATIENT_KEY2);
+        patient_nfc_scanned_id = getIntent().getStringExtra(NFCActivity.NFC_PATIENT);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -77,7 +78,7 @@ public class PatientDetailsActivity extends AppCompatActivity
 
         if (TextUtils.isEmpty(PATIENT_KEY))
         {
-            return_scanned_data(PATIENT_NFC);
+            return_scanned_data(patient_nfc_scanned_id);
             scan_card.setVisibility(View.GONE);
         } else
         {
@@ -133,12 +134,13 @@ public class PatientDetailsActivity extends AppCompatActivity
                     return;
                 }
 
+                save_card.setVisibility(View.GONE);
                 medicaldiagnosis_field.setEnabled(false);
                 pharmaceutical_field.setEnabled(false);
                 savechanges_btn.setEnabled(false);
                 edit_profile_btn.setEnabled(true);
 
-                UpdatePatientProfile(full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt,profile_image_url,medicaldiagnosis_txt,pharmaceutical_txt);
+                UpdatePatientProfile(user_id,full_name_txt,email_txt,personal_id_txt,nfc_id_txt,date_txt,closest_txt,mobile_txt,bloodtypes.getSelectedItemPosition(),address_txt,profile_image_url,medicaldiagnosis_txt,pharmaceutical_txt);
             }
         });
 
@@ -146,6 +148,7 @@ public class PatientDetailsActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
+                save_card.setVisibility(View.VISIBLE);
                 medicaldiagnosis_field.setEnabled(true);
                 pharmaceutical_field.setEnabled(true);
                 savechanges_btn.setEnabled(true);
@@ -161,6 +164,8 @@ public class PatientDetailsActivity extends AppCompatActivity
         edit_profile_btn = findViewById(R.id.edit_profile_btn);
         savechanges_btn = findViewById(R.id.savechanges_btn);
         scan_nfc = findViewById(R.id.scan_nfc);
+
+        save_card = findViewById(R.id.save_card);
 
         fullname_txt = findViewById(R.id.fullname_txt);
         nfcid_txt = findViewById(R.id.nfcid_txt);
@@ -190,6 +195,7 @@ public class PatientDetailsActivity extends AppCompatActivity
         // Apply the adapter to the spinner
         bloodtypes.setAdapter(adapter1);
 
+        save_card.setVisibility(View.GONE);
         bloodtypes.setEnabled(false);
         email_field.setEnabled(false);
         fullname_field.setEnabled(false);
@@ -220,34 +226,39 @@ public class PatientDetailsActivity extends AppCompatActivity
                         // Get user value
                         PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
 
-                        NFC = patientModel.getNFC_ID();
+                        if (patientModel != null)
+                        {
+                            user_id = patientModel.getPatient_user_id();
 
-                        fullname_txt.setText(patientModel.getFullname());
-                        nfcid_txt.setText(patientModel.getNFC_ID());
-                        mobile = patientModel.getMobilenumber();
-                        email_field.setText(patientModel.getEmail());
-                        fullname_field.setText(patientModel.getFullname());
-                        mobile_field.setText(patientModel.getMobilenumber());
-                        closemobile_field.setText(patientModel.getClose_mobile_number());
-                        address_field.setText(patientModel.getAddress());
-                        nfcid_field.setText(NFC);
-                        personalid_field.setText(patientModel.getPersonal_ID());
-                        birthday_field.setText(patientModel.getBirthdate());
-                        bloodtypes.setSelection(patientModel.getBloodtypes());
+                            NFC = patientModel.getNFC_ID();
 
-                        medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
-                        pharmaceutical_field.setText(patientModel.getPharmaceutical());
+                            fullname_txt.setText(patientModel.getFullname());
+                            nfcid_txt.setText(patientModel.getNFC_ID());
+                            mobile = patientModel.getMobilenumber();
+                            email_field.setText(patientModel.getEmail());
+                            fullname_field.setText(patientModel.getFullname());
+                            mobile_field.setText(patientModel.getMobilenumber());
+                            closemobile_field.setText(patientModel.getClose_mobile_number());
+                            address_field.setText(patientModel.getAddress());
+                            nfcid_field.setText(NFC);
+                            personalid_field.setText(patientModel.getPersonal_ID());
+                            birthday_field.setText(patientModel.getBirthdate());
+                            bloodtypes.setSelection(patientModel.getBloodtypes());
 
-                        profile_image_url = patientModel.getImageurl();
+                            medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
+                            pharmaceutical_field.setText(patientModel.getPharmaceutical());
+
+                            profile_image_url = patientModel.getImageurl();
 
 
-                        Picasso.get()
-                                .load(profile_image_url)
-                                .placeholder(R.drawable.patient2)
-                                .error(R.drawable.patient2)
-                                .into(profilepicture);
+                            Picasso.get()
+                                    .load(profile_image_url)
+                                    .placeholder(R.drawable.patient2)
+                                    .error(R.drawable.patient2)
+                                    .into(profilepicture);
 
-                        rotateLoading.stop();
+                            rotateLoading.stop();
+                        }
                     }
 
                     @Override
@@ -273,34 +284,39 @@ public class PatientDetailsActivity extends AppCompatActivity
                         // Get user value
                         PatientModel patientModel = dataSnapshot.getValue(PatientModel.class);
 
-                        NFC = patientModel.getNFC_ID();
+                        if (patientModel != null)
+                        {
+                            user_id = patientModel.getPatient_user_id();
 
-                        fullname_txt.setText(patientModel.getFullname());
-                        nfcid_txt.setText(patientModel.getNFC_ID());
-                        mobile = patientModel.getMobilenumber();
-                        email_field.setText(patientModel.getEmail());
-                        fullname_field.setText(patientModel.getFullname());
-                        mobile_field.setText(patientModel.getMobilenumber());
-                        closemobile_field.setText(patientModel.getClose_mobile_number());
-                        address_field.setText(patientModel.getAddress());
-                        nfcid_field.setText(NFC);
-                        personalid_field.setText(patientModel.getPersonal_ID());
-                        birthday_field.setText(patientModel.getBirthdate());
-                        bloodtypes.setSelection(patientModel.getBloodtypes());
+                            NFC = patientModel.getNFC_ID();
 
-                        medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
-                        pharmaceutical_field.setText(patientModel.getPharmaceutical());
+                            fullname_txt.setText(patientModel.getFullname());
+                            nfcid_txt.setText(patientModel.getNFC_ID());
+                            mobile = patientModel.getMobilenumber();
+                            email_field.setText(patientModel.getEmail());
+                            fullname_field.setText(patientModel.getFullname());
+                            mobile_field.setText(patientModel.getMobilenumber());
+                            closemobile_field.setText(patientModel.getClose_mobile_number());
+                            address_field.setText(patientModel.getAddress());
+                            nfcid_field.setText(NFC);
+                            personalid_field.setText(patientModel.getPersonal_ID());
+                            birthday_field.setText(patientModel.getBirthdate());
+                            bloodtypes.setSelection(patientModel.getBloodtypes());
 
-                        profile_image_url = patientModel.getImageurl();
+                            medicaldiagnosis_field.setText(patientModel.getMedical_diagnosis());
+                            pharmaceutical_field.setText(patientModel.getPharmaceutical());
+
+                            profile_image_url = patientModel.getImageurl();
 
 
-                        Picasso.get()
-                                .load(profile_image_url)
-                                .placeholder(R.drawable.patient2)
-                                .error(R.drawable.patient2)
-                                .into(profilepicture);
+                            Picasso.get()
+                                    .load(profile_image_url)
+                                    .placeholder(R.drawable.patient2)
+                                    .error(R.drawable.patient2)
+                                    .into(profilepicture);
 
-                        rotateLoading.stop();
+                            rotateLoading.stop();
+                        }
                     }
 
                     @Override
@@ -312,16 +328,16 @@ public class PatientDetailsActivity extends AppCompatActivity
                 });
     }
 
-    public void UpdatePatientProfile(String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl,String med, String pharm)
+    public void UpdatePatientProfile(String user_id, String fullname, String email, String personalid, String nfcid, String birthdate, String closemobile, String mobile, int bloodtype, String address, String imageurl,String med, String pharm)
     {
-        PatientModel patientModel = new PatientModel(fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,med,pharm,bloodtype);
+        PatientModel patientModel = new PatientModel(user_id,fullname,email,personalid,nfcid,birthdate,closemobile,mobile,address,imageurl,med,pharm,bloodtype);
 
-        databaseReference.child("Patients").child(NFC).child(NFC).child(PATIENT_KEY).setValue(patientModel);
-        databaseReference.child("AllUsers").child("Patients").child(PATIENT_KEY).setValue(patientModel);
+        databaseReference.child("Patients").child(NFC).child(NFC).setValue(patientModel);
+        databaseReference.child("AllUsers").child("Patients").child(user_id).setValue(patientModel);
 
         if (TextUtils.isEmpty(PATIENT_KEY))
         {
-            return_scanned_data(PATIENT_NFC);
+            return_scanned_data(patient_nfc_scanned_id);
         } else
         {
             returndata(PATIENT_KEY);

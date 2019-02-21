@@ -6,15 +6,66 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NFCActivity"
+    tools:context=".ActivitiesAndFragments.NFCActivity"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
         >
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            >
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/first_aid_card"
+                style="@style/RippleStyleGrey"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/firstaidkit"
+                        android:padding="10dp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Aid Instructions"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -22,7 +73,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:layout_margin="16dp"
+            android:layout_margin="30dp"
             >
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -54,8 +105,10 @@
             android:background="@drawable/edit_text_background"
             android:padding="10dp"
             android:inputType="text"
-            android:layout_margin="16dp"
             android:textColor="@android:color/black"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="10dp"
             />
 
         <EditText
@@ -66,9 +119,9 @@
             android:background="@drawable/edit_text_background"
             android:padding="10dp"
             android:inputType="text"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
             />
 
         <EditText
@@ -78,9 +131,8 @@
             android:hint="Note .."
             android:background="@drawable/edit_text_background"
             android:padding="10dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             />
 
         <android.support.v7.widget.CardView
@@ -89,7 +141,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:layout_margin="16dp"
+            android:layout_margin="30dp"
             >
 
             <com.balysv.materialripple.MaterialRippleLayout
