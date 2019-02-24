@@ -1,7 +1,6 @@
-package mansour.abdullah.el7a2ny.GuestApp;
+package mansour.abdullah.el7a2ny.ParamedicApp;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -32,53 +31,56 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
 import mansour.abdullah.el7a2ny.Listener;
 import mansour.abdullah.el7a2ny.Models.LocationModel;
 import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment;
-import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment3;
+import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment2;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicFragments.ParamedicNFC;
 import mansour.abdullah.el7a2ny.R;
 
-public class GuestActivity extends AppCompatActivity implements Listener
+public class ParamedicNFCActivity extends AppCompatActivity implements Listener
 {
     public static final String TAG = ParamedicNFC.class.getSimpleName();
 
-    MaterialRippleLayout first_aid_card;
-    Button scan_nfc,sendlocation;
-    EditText patient_notes;
+    private NFCReadFragment2 mNfcReadFragment;
 
-    String nfcid,namee,emergencyy,bloodtypee,diseasee,noote;
+    private boolean isDialogDisplayed = false;
+    private boolean isWrite = false;
+
+    private NfcAdapter mNfcAdapter;
 
     FusedLocationProviderClient mFusedLocationClient;
     Location my_location;
 
-    NFCReadFragment3 mNfcReadFragment;
+    String nfcid,namee,emergencyy,bloodtypee,diseasee,noote;
 
-    boolean isDialogDisplayed = false;
-    boolean isWrite = false;
-
-    NfcAdapter mNfcAdapter;
+    Button scan_nfc,send_location;
+    EditText patient_nfc,patient_name,patient_note;
+    MaterialRippleLayout first_aid;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    @TargetApi(Build.VERSION_CODES.P)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest);
+        setContentView(R.layout.activity_paramedic_nfc);
 
-        first_aid_card = findViewById(R.id.first_aid_card);
         scan_nfc = findViewById(R.id.btn_read);
-        sendlocation = findViewById(R.id.send_location_btn);
-        patient_notes = findViewById(R.id.patient_note_field);
+        send_location = findViewById(R.id.send_location_btn);
+
+        patient_nfc = findViewById(R.id.patient_nfc_field);
+        patient_name = findViewById(R.id.patient_name_field);
+        patient_note = findViewById(R.id.patient_note_field);
+
+        first_aid = findViewById(R.id.first_aid_card);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-
-        initNFC();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
@@ -89,7 +91,7 @@ public class GuestActivity extends AppCompatActivity implements Listener
             return;
         }
         mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>()
+                .addOnSuccessListener(ParamedicNFCActivity.this, new OnSuccessListener<Location>()
                 {
                     @Override
                     public void onSuccess(Location location)
@@ -103,7 +105,9 @@ public class GuestActivity extends AppCompatActivity implements Listener
                     }
                 });
 
-        first_aid_card.setOnClickListener(new View.OnClickListener()
+        initNFC();
+
+        first_aid.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -132,12 +136,22 @@ public class GuestActivity extends AppCompatActivity implements Listener
             }
         });
 
-        sendlocation.setOnClickListener(new View.OnClickListener() {
+        send_location.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
-                String latitude = Double.toString(my_location.getLatitude());
-                String longitude = Double.toString(my_location.getLongitude());
+                double latitude1 = my_location.getLatitude();
+                double longitude1 = my_location.getLongitude();
+
+                String latitude = Double.toString(latitude1);
+                String longitude = Double.toString(longitude1);
+
+                //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+
+                nfcid = patient_nfc.getText().toString();
+                namee = patient_name.getText().toString();
+                noote = patient_note.getText().toString();
 
                 if (TextUtils.isEmpty(nfcid))
                 {
@@ -149,8 +163,9 @@ public class GuestActivity extends AppCompatActivity implements Listener
                 {
                     noote = "Hurry Up ...";
                 }
-
                 sendRequest(nfcid, namee ,emergencyy,bloodtypee,diseasee,noote,latitude,longitude);
+                /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                getApplicationContext().startActivity(intent);*/
             }
         });
     }
@@ -162,14 +177,13 @@ public class GuestActivity extends AppCompatActivity implements Listener
 
     private void showReadFragment()
     {
-        mNfcReadFragment = (NFCReadFragment3) getSupportFragmentManager().findFragmentByTag(NFCReadFragment3.TAG);
+        mNfcReadFragment = (NFCReadFragment2) getSupportFragmentManager().findFragmentByTag(NFCReadFragment2.TAG);
 
         if (mNfcReadFragment == null)
         {
-
-            mNfcReadFragment = NFCReadFragment3.newInstance();
+            mNfcReadFragment = NFCReadFragment2.newInstance();
         }
-        mNfcReadFragment.show(getSupportFragmentManager(),NFCReadFragment3.TAG);
+        mNfcReadFragment.show(getSupportFragmentManager(),NFCReadFragment2.TAG);
     }
 
     @Override
@@ -188,13 +202,13 @@ public class GuestActivity extends AppCompatActivity implements Listener
     @Override
     public void nfc_id(String id)
     {
-        nfcid = id;
+        patient_nfc.setText(id);
     }
 
     @Override
     public void patient_name(String name)
     {
-        namee = name;
+        patient_name.setText(name);
     }
 
     @Override
@@ -227,7 +241,7 @@ public class GuestActivity extends AppCompatActivity implements Listener
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(), 0, new Intent(getApplicationContext(), getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         if(mNfcAdapter!= null)
-            mNfcAdapter.enableForegroundDispatch(GuestActivity.this, pendingIntent, nfcIntentFilter, null);
+            mNfcAdapter.enableForegroundDispatch(ParamedicNFCActivity.this, pendingIntent, nfcIntentFilter, null);
     }
 
     @Override
@@ -235,7 +249,7 @@ public class GuestActivity extends AppCompatActivity implements Listener
     {
         super.onPause();
         if(mNfcAdapter!= null)
-            mNfcAdapter.disableForegroundDispatch(GuestActivity.this);
+            mNfcAdapter.disableForegroundDispatch(ParamedicNFCActivity.this);
     }
 
     @Override
@@ -257,7 +271,7 @@ public class GuestActivity extends AppCompatActivity implements Listener
 
                 } else
                 {
-                    mNfcReadFragment = (NFCReadFragment3)getSupportFragmentManager().findFragmentByTag(NFCReadFragment3.TAG);
+                    mNfcReadFragment = (NFCReadFragment2)getSupportFragmentManager().findFragmentByTag(NFCReadFragment2.TAG);
                     mNfcReadFragment.onNfcDetected(ndef);
                 }
             }

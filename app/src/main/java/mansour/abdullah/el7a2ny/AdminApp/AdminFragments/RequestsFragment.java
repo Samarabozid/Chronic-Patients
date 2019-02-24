@@ -58,7 +58,8 @@ public class RequestsFragment extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
         recyclerView = view.findViewById(R.id.doctors_recyclerview);

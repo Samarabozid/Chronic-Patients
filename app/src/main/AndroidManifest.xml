@@ -27,10 +27,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".GuestApp.GuestActivity">
+        <activity android:name=".ParamedicApp.ParamedicNFCActivity"></activity>
+        <activity
+            android:name=".GuestApp.GuestActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".AdminApp.AdminDoctorsAndParamedicsDetailsActivity"
             android:screenOrientation="portrait"

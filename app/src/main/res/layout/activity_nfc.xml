@@ -22,7 +22,7 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:layout_margin="16dp"
+        android:layout_margin="30dp"
         >
 
         <com.balysv.materialripple.MaterialRippleLayout
@@ -54,8 +54,10 @@
         android:background="@drawable/edit_text_background"
         android:padding="10dp"
         android:inputType="text"
-        android:layout_margin="16dp"
         android:textColor="@android:color/black"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
         />
 
     <EditText
@@ -65,10 +67,11 @@
         android:hint="Patient Name"
         android:background="@drawable/edit_text_background"
         android:padding="10dp"
+        android:textColor="@android:color/black"
         android:inputType="text"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
         />
 
     <EditText
@@ -79,18 +82,19 @@
         android:background="@drawable/edit_text_background"
         android:padding="10dp"
         android:inputType="text"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
         >
 
         <TextView
@@ -127,9 +131,10 @@
         android:background="@drawable/edit_text_background"
         android:padding="10dp"
         android:inputType="text"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/black"
         />
 
         <android.support.v7.widget.CardView
@@ -138,7 +143,7 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:layout_margin="16dp"
+            android:layout_margin="30dp"
             >
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -169,7 +174,9 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         >
 
         <com.balysv.materialripple.MaterialRippleLayout

@@ -20,7 +20,8 @@ public class RegisterActivity extends AppCompatActivity
     TabLayout tabLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 

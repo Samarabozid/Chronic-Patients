@@ -184,6 +184,7 @@ public class ParamedicsFragment extends Fragment
             }
         };
         recyclerView.setAdapter(firebaseRecyclerAdapter);
+        rotateLoading.stop();
     }
 
     private void DisplayallDoctorsbySpecialty(String specialty)

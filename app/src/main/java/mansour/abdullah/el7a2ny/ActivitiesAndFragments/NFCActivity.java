@@ -155,11 +155,9 @@ public class NFCActivity extends AppCompatActivity implements Listener
 
         patient_nfc.setEnabled(false);
         patient_bloodtype.setEnabled(false);
-
-        /*patient_name.setEnabled(false);
+        patient_name.setEnabled(false);
         patient_emergency.setEnabled(false);
-        patient_bloodtype.setEnabled(false);
-        patient_disease.setEnabled(false);*/
+        //patient_disease.setEnabled(false);
 
         view_profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,9 +195,9 @@ public class NFCActivity extends AppCompatActivity implements Listener
 
                     all = nfc + "," + name + "," + emergency + "," + bloodtype + "," + disease;
 
-                    if (TextUtils.isEmpty(all))
+                    if (TextUtils.isEmpty(disease))
                     {
-                        Toast.makeText(getApplicationContext(), "please enter all data to write it", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "please enter disease", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
