@@ -40,7 +40,6 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
     Spinner bloodtypes;
     String mobile,profile_image_url,NFC;
 
-
     RotateLoading rotateLoading;
 
     FirebaseDatabase firebaseDatabase;
