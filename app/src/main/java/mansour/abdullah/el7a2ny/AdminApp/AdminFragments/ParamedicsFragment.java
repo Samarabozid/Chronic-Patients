@@ -145,6 +145,12 @@ public class ParamedicsFragment extends Fragment
 
                 holder.BindPlaces(model);
 
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
+
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -210,6 +216,12 @@ public class ParamedicsFragment extends Fragment
                 final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
+
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
 
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -470,12 +482,6 @@ public class ParamedicsFragment extends Fragment
         {
             doctor_name.setText(paramedicModel.getFullname());
             doctor_specailty.setText(paramedicModel.getWork_place());
-
-            Picasso.get()
-                    .load(paramedicModel.getImageurl())
-                    .placeholder(R.drawable.doctor2)
-                    .error(R.drawable.doctor2)
-                    .into(doctor_picture);
         }
     }
 

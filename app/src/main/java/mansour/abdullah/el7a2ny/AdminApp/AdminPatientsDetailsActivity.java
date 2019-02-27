@@ -162,7 +162,7 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
                             profile_image_url = patientModel.getImageurl();
 
 
-                            Picasso.get()
+                            Picasso.with(getApplicationContext())
                                     .load(profile_image_url)
                                     .placeholder(R.drawable.patient2)
                                     .error(R.drawable.patient2)
@@ -218,7 +218,7 @@ public class AdminPatientsDetailsActivity extends AppCompatActivity
                             profile_image_url = patientModel.getImageurl();
 
 
-                            Picasso.get()
+                            Picasso.with(getApplicationContext())
                                     .load(profile_image_url)
                                     .placeholder(R.drawable.patient2)
                                     .error(R.drawable.patient2)

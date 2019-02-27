@@ -1,6 +1,10 @@
 package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
+import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -191,74 +195,182 @@ public class SplashScreen extends AppCompatActivity
 
     public void updateDoctorUI()
     {
-        TimerTask task = new TimerTask()
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected)
         {
-            @Override
-            public void run()
+            TimerTask task = new TimerTask()
             {
-                // go to the main activity
-                Intent i = new Intent(getApplicationContext(), DoctorMainActivity.class);
-                startActivity(i);
-                // kill current activity
-                finish();
-            }
-        };
-        // Show splash screen for 3 seconds
-        new Timer().schedule(task, 3000);
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), DoctorMainActivity.class);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        } else
+        {
+            TimerTask task = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), NoInternetActivity.class);
+                    i.putExtra("doctor", 0);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        }
     }
 
     public void updatePatientUI()
     {
-        TimerTask task = new TimerTask()
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected)
         {
-            @Override
-            public void run()
+            TimerTask task = new TimerTask()
             {
-                // go to the main activity
-                Intent i = new Intent(getApplicationContext(), PatientMainActivity.class);
-                startActivity(i);
-                // kill current activity
-                finish();
-            }
-        };
-        // Show splash screen for 3 seconds
-        new Timer().schedule(task, 3000);
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), PatientMainActivity.class);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        } else
+        {
+            TimerTask task = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), NoInternetActivity.class);
+                    i.putExtra("doctor", 1);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        }
     }
 
     public void updateParamedicUI()
     {
-        TimerTask task = new TimerTask()
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected)
         {
-            @Override
-            public void run()
+            TimerTask task = new TimerTask()
             {
-                // go to the main activity
-                Intent intent = new Intent(getApplicationContext(), ParamedicMainActivity.class);
-                startActivity(intent);
-                // kill current activity
-                finish();
-            }
-        };
-        // Show splash screen for 3 seconds
-        new Timer().schedule(task, 3000);
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), ParamedicMainActivity.class);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        } else
+        {
+            TimerTask task = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), NoInternetActivity.class);
+                    i.putExtra("doctor", 2);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        }
     }
 
     public void updateAdminUI()
     {
-        TimerTask task = new TimerTask()
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected)
         {
-            @Override
-            public void run()
+            TimerTask task = new TimerTask()
             {
-                // go to the main activity
-                Intent i = new Intent(getApplicationContext(), AdminMainActivity.class);
-                startActivity(i);
-                // kill current activity
-                finish();
-            }
-        };
-        // Show splash screen for 3 seconds
-        new Timer().schedule(task, 3000);
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), AdminMainActivity.class);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        } else
+        {
+            TimerTask task = new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    // go to the main activity
+                    Intent i = new Intent(getApplicationContext(), NoInternetActivity.class);
+                    i.putExtra("doctor", 3);
+                    startActivity(i);
+                    // kill current activity
+                    finish();
+                }
+            };
+            // Show splash screen for 3 seconds
+            new Timer().schedule(task, 3000);
+        }
     }
 
     private String getUID()

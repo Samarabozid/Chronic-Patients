@@ -112,7 +112,7 @@ public class DoctorDetailsActivity extends AppCompatActivity
 
                         profile_image_url = doctorModel.getImageurl();
 
-                        Picasso.get()
+                        Picasso.with(getApplicationContext())
                                 .load(profile_image_url)
                                 .placeholder(R.drawable.doctor2)
                                 .error(R.drawable.doctor2)

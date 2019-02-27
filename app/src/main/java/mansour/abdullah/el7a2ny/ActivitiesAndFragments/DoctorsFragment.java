@@ -145,6 +145,12 @@ public class DoctorsFragment extends Fragment
 
                 holder.BindPlaces(model);
 
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
+
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,6 +226,12 @@ public class DoctorsFragment extends Fragment
                 final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
+
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
 
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -490,12 +502,6 @@ public class DoctorsFragment extends Fragment
         {
             doctor_name.setText(doctorModel.getFullname());
             doctor_specailty.setText(doctorModel.getSpecialization());
-
-            Picasso.get()
-                    .load(doctorModel.getImageurl())
-                    .placeholder(R.drawable.doctor2)
-                    .error(R.drawable.doctor2)
-                    .into(doctor_picture);
         }
     }
 

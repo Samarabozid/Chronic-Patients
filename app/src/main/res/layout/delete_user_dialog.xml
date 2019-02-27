@@ -26,6 +26,7 @@
             >
 
             <TextView
+                android:id="@+id/title_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Delete User"
@@ -58,6 +59,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/info_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Are You Sure to Delete This Account ?!!"

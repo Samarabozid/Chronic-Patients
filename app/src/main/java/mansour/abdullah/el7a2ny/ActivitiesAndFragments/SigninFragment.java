@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +45,7 @@ public class SigninFragment extends Fragment
     View view;
 
     EditText email,password;
+    TextView forgotpassword;
     Button sign_in,guest;
 
     String email_txt,password_txt;
@@ -86,7 +88,41 @@ public class SigninFragment extends Fragment
         password = view.findViewById(R.id.password_field);
         sign_in = view.findViewById(R.id.sign_in_btn);
         guest = view.findViewById(R.id.guest_btn);
+        forgotpassword = view.findViewById(R.id.forgot_password_txt);
         rotateLoading = view.findViewById(R.id.signinrotateloading);
+
+        forgotpassword.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                final String emailAddress = email.getText().toString();
+
+                if (TextUtils.isEmpty(emailAddress))
+                {
+                    Toast.makeText(getContext(), "please enter your email firstly", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (emailAddress.equals("admin@admin.com"))
+                {
+                    Toast.makeText(getContext(), "you can't reset admin account password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                auth.sendPasswordResetEmail(emailAddress)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful())
+                                {
+                                    Toast.makeText(getContext(), "password reset email has been sent to : " + emailAddress, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
 
         checkBox = view.findViewById(R.id.remember_me_checkbox);
 
@@ -99,7 +135,8 @@ public class SigninFragment extends Fragment
             checkBox.setChecked(true);
         }
 
-        sign_in.setOnClickListener(new View.OnClickListener() {
+        sign_in.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 email_txt = email.getText().toString();

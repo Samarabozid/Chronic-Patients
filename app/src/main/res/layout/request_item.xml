@@ -46,11 +46,24 @@
                     android:src="@drawable/planetearth"
                     android:layout_marginRight="20dp"
                     />
-
-                <LinearLayout
+                
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    >
+                    
+                    <ImageView
+                        android:id="@+id/delete_request"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_delete_forever_black_24dp"
+                        android:layout_alignParentRight="true"
+                        />
+                    
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
 
@@ -141,6 +154,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                </RelativeLayout>
 
             </LinearLayout>
 

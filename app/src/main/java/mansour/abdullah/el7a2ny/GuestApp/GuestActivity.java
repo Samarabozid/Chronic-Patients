@@ -8,12 +8,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,8 +31,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +50,8 @@ import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment3;
 import mansour.abdullah.el7a2ny.ParamedicApp.ParamedicFragments.ParamedicNFC;
 import mansour.abdullah.el7a2ny.R;
 
-public class GuestActivity extends AppCompatActivity implements Listener
+public class GuestActivity extends AppCompatActivity implements Listener, GoogleApiClient.ConnectionCallbacks
+        , GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
     public static final String TAG = ParamedicNFC.class.getSimpleName();
 
@@ -49,8 +61,9 @@ public class GuestActivity extends AppCompatActivity implements Listener
 
     String nfcid,namee,emergencyy,bloodtypee,diseasee,noote;
 
-    FusedLocationProviderClient mFusedLocationClient;
-    Location my_location;
+    GoogleApiClient googleApiClient;
+    Location lastlocation;
+    LocationRequest locationRequest;
 
     NFCReadFragment3 mNfcReadFragment;
 
@@ -80,28 +93,7 @@ public class GuestActivity extends AppCompatActivity implements Listener
 
         initNFC();
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-
-            return;
-        }
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>()
-                {
-                    @Override
-                    public void onSuccess(Location location)
-                    {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null)
-                        {
-                            // Logic to handle location object
-                            my_location = location;
-                        }
-                    }
-                });
+        buildGoogleAPIClient();
 
         first_aid_card.setOnClickListener(new View.OnClickListener()
         {
@@ -134,23 +126,41 @@ public class GuestActivity extends AppCompatActivity implements Listener
 
         sendlocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String latitude = Double.toString(my_location.getLatitude());
-                String longitude = Double.toString(my_location.getLongitude());
+            public void onClick(View v) {
+                ConnectivityManager cm =
+                        (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-                if (TextUtils.isEmpty(nfcid))
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+
+                if (isConnected)
                 {
-                    Toast.makeText(getApplicationContext(), "please scan NFC firstly", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                if (TextUtils.isEmpty(noote))
-                {
-                    noote = "Hurry Up ...";
-                }
+                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        Toast.makeText(getApplicationContext(), "please check your gps is enabled", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                sendRequest(nfcid, namee ,emergencyy,bloodtypee,diseasee,noote,latitude,longitude);
+                    String latitude = Double.toString(lastlocation.getLatitude());
+                    String longitude = Double.toString(lastlocation.getLongitude());
+                    noote = patient_notes.getText().toString();
+
+                    if (TextUtils.isEmpty(nfcid)) {
+                        Toast.makeText(getApplicationContext(), "please scan NFC firstly", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (TextUtils.isEmpty(noote)) {
+                        noote = "Hurry Up ...";
+                    }
+
+                    sendRequest(nfcid, namee, emergencyy, bloodtypee, diseasee, noote, latitude, longitude);
+                } else
+                    {
+                        Toast.makeText(getApplicationContext(), "please check your internet connection", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
     }
@@ -273,5 +283,48 @@ public class GuestActivity extends AppCompatActivity implements Listener
         databaseReference.child("AllRequests").child(request_key).setValue(locationModel);
 
         Toast.makeText(getApplicationContext(), "Location Sent", Toast.LENGTH_SHORT).show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onConnected(@Nullable Bundle bundle)
+    {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(1000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        lastlocation = location;
+    }
+
+    protected synchronized void buildGoogleAPIClient()
+    {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        googleApiClient.connect();
     }
 }

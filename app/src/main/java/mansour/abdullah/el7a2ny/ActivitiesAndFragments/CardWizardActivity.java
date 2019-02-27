@@ -1,10 +1,13 @@
 package mansour.abdullah.el7a2ny.ActivitiesAndFragments;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
@@ -43,10 +46,13 @@ public class CardWizardActivity extends AppCompatActivity
             R.drawable.ambulance
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_wizard);
+
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
@@ -140,12 +146,31 @@ public class CardWizardActivity extends AppCompatActivity
                         // move to next screen
                         viewPager.setCurrentItem(current);
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        ConnectivityManager cm =
+                                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                        boolean isConnected = activeNetwork != null &&
+                                activeNetwork.isConnectedOrConnecting();
+
+                        if (isConnected)
                         {
-                            startActivity(intent,
-                                    ActivityOptions.makeSceneTransitionAnimation(CardWizardActivity.this).toBundle());
-                        }
+                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                            {
+                                startActivity(intent,
+                                        ActivityOptions.makeSceneTransitionAnimation(CardWizardActivity.this).toBundle());
+                            }
+                        } else
+                            {
+                                Intent intent = new Intent(getApplicationContext(), NoInternetActivity.class);
+                                intent.putExtra("doctor", 4);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                {
+                                    startActivity(intent,
+                                            ActivityOptions.makeSceneTransitionAnimation(CardWizardActivity.this).toBundle());
+                                }
+                            }
                     }
                 }
             });

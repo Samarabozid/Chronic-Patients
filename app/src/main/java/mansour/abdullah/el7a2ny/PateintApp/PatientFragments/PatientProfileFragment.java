@@ -392,7 +392,7 @@ public class PatientProfileFragment extends Fragment
 
                         profile_image_url = patientModel.getImageurl();
 
-                        Picasso.get()
+                        Picasso.with(getContext())
                                 .load(profile_image_url)
                                 .placeholder(R.drawable.patient2)
                                 .error(R.drawable.patient2)
@@ -491,7 +491,7 @@ public class PatientProfileFragment extends Fragment
                 {
                     photoPath = result.getUri();
 
-                    Picasso.get()
+                    Picasso.with(getContext())
                             .load(photoPath)
                             .placeholder(R.drawable.patient2)
                             .error(R.drawable.patient2)
@@ -573,6 +573,7 @@ public class PatientProfileFragment extends Fragment
                                                     {
                                                         Intent intent = new Intent(getContext(), RegisterActivity.class);
                                                         startActivity(intent);
+                                                        dialog.dismiss();
                                                     }
                                                 }
                                             });

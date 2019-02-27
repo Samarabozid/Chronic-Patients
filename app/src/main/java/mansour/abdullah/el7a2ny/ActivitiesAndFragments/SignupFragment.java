@@ -259,7 +259,7 @@ public class SignupFragment extends Fragment
                     return;
                 }
 
-                if (specialization_txt.length() == 0)
+                if (specialization_txt.equals("Select your specialty"))
                 {
                     Toast.makeText(getContext(), "please select your specialization", Toast.LENGTH_SHORT).show();
                     return;
@@ -667,7 +667,7 @@ public class SignupFragment extends Fragment
                 {
                     photoPath = result.getUri();
 
-                    Picasso.get()
+                    Picasso.with(getContext())
                             .load(photoPath)
                             .placeholder(R.drawable.addphoto)
                             .error(R.drawable.addphoto)

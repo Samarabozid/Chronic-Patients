@@ -1,6 +1,10 @@
 package mansour.abdullah.el7a2ny.AdminApp.AdminFragments;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,16 +12,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -26,6 +40,7 @@ import com.victor.loading.rotate.RotateLoading;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import mansour.abdullah.el7a2ny.ActivitiesAndFragments.RegisterActivity;
 import mansour.abdullah.el7a2ny.AdminApp.AdminPatientsDetailsActivity;
 import mansour.abdullah.el7a2ny.Models.LocationModel;
 import mansour.abdullah.el7a2ny.R;
@@ -99,6 +114,7 @@ public class RequestsFragment extends Fragment
                 rotateLoading.stop();
 
                 final String key2 = model.getNfc_id();
+                final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
 
@@ -131,18 +147,25 @@ public class RequestsFragment extends Fragment
                     }
                 });
 
-                double latitude = Double.parseDouble(model.getLatitude());
-                double longitude = Double.parseDouble(model.getLongitude());
-
-                uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+                holder.remove_request.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        showDeleteDialog(key);
+                    }
+                });
 
                 holder.doctor_picture.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        getContext().startActivity(intent);
+                        String latitude = model.getLatitude();
+                        String longitude =model.getLongitude();
+                        String name = model.getName();
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q="+latitude+","+longitude+"("+name+")"));
+                        startActivity(intent);
                     }
                 });
             }
@@ -182,7 +205,7 @@ public class RequestsFragment extends Fragment
 
     public static class AdminRequestsViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView doctor_mobile;
+        ImageView doctor_mobile,remove_request;
         CircleImageView doctor_picture;
         TextView doctor_name,doctor_specailty,disease_txt,notes_txt;
         MaterialRippleLayout doctor_details;
@@ -194,6 +217,7 @@ public class RequestsFragment extends Fragment
 
             doctor_picture = itemView.findViewById(R.id.doctor_profile_picture);
             doctor_mobile = itemView.findViewById(R.id.phonenumber_btn);
+            remove_request = itemView.findViewById(R.id.delete_request);
             doctor_name = itemView.findViewById(R.id.doctor_fullname);
             doctor_specailty = itemView.findViewById(R.id.doctor_specialty);
             doctor_details = itemView.findViewById(R.id.details_btn);
@@ -236,5 +260,52 @@ public class RequestsFragment extends Fragment
     private void dialContactPhone(final String phoneNumber)
     {
         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
+    }
+
+    private void showDeleteDialog(final String keyy)
+    {
+        final Dialog dialog = new Dialog(getActivity());
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.delete_user_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes();
+        dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        TextView title = dialog.findViewById(R.id.title_delete);
+        TextView info = dialog.findViewById(R.id.info_delete);
+
+        Button yes_btn = dialog.findViewById(R.id.yes_btn);
+        Button cancel_btn = dialog.findViewById(R.id.cancel_btn);
+
+        title.setText("Delete Request");
+        info.setText("Are You Sure to Delete This Request");
+
+        yes_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                databaseReference.child("AllRequests").child(keyy).removeValue();
+
+                Toast.makeText(getContext(), "Request Removed", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }

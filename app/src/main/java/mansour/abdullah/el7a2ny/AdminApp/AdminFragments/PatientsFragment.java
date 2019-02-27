@@ -123,6 +123,12 @@ public class PatientsFragment extends Fragment
 
                 holder.BindPlaces(model);
 
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
+
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -189,6 +195,12 @@ public class PatientsFragment extends Fragment
 
                 holder.BindPlaces(model);
 
+                Picasso.with(getContext())
+                        .load(model.getImageurl())
+                        .placeholder(R.drawable.doctor2)
+                        .error(R.drawable.doctor2)
+                        .into(holder.doctor_picture);
+
                 holder.doctor_mobile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -202,7 +214,7 @@ public class PatientsFragment extends Fragment
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(getContext(), AdminPatientsDetailsActivity.class);
-                        intent.putExtra(ADMIN_EXTRA_PATIENT_KEY, key);
+                        intent.putExtra(RequestsFragment.ADMIN_EXTRA_REQUEST_KEY, key);
                         startActivity(intent);
                     }
                 });
@@ -213,7 +225,7 @@ public class PatientsFragment extends Fragment
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(getContext(), AdminPatientsDetailsActivity.class);
-                        intent.putExtra(ADMIN_EXTRA_PATIENT_KEY, key);
+                        intent.putExtra(RequestsFragment.ADMIN_EXTRA_REQUEST_KEY, key);
                         startActivity(intent);
                     }
                 });
@@ -457,12 +469,6 @@ public class PatientsFragment extends Fragment
         {
             doctor_name.setText(patientModel.getFullname());
             doctor_specailty.setText(patientModel.getNFC_ID());
-
-            Picasso.get()
-                    .load(patientModel.getImageurl())
-                    .placeholder(R.drawable.doctor2)
-                    .error(R.drawable.doctor2)
-                    .into(doctor_picture);
         }
     }
 
