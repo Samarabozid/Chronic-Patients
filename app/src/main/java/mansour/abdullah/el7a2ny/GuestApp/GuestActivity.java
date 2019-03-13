@@ -142,6 +142,14 @@ public class GuestActivity extends AppCompatActivity implements Listener, Google
                         Toast.makeText(getApplicationContext(), "please check your gps is enabled", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    
+                    if (lastlocation == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "please refresh your GPS and try again", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), GuestActivity.class);
+                        startActivity(intent);
+                        return;
+                    }
 
                     String latitude = Double.toString(lastlocation.getLatitude());
                     String longitude = Double.toString(lastlocation.getLongitude());

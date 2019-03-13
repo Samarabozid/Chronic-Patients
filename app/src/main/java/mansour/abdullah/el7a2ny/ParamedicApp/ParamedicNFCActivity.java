@@ -44,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
+import mansour.abdullah.el7a2ny.GuestApp.GuestActivity;
 import mansour.abdullah.el7a2ny.Listener;
 import mansour.abdullah.el7a2ny.Models.LocationModel;
 import mansour.abdullah.el7a2ny.NFCFragments.NFCReadFragment;
@@ -146,6 +147,14 @@ public class ParamedicNFCActivity extends AppCompatActivity implements Listener,
 
                     if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         Toast.makeText(getApplicationContext(), "please check your gps is enabled", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (lastlocation == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "please refresh your GPS and try again", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ParamedicNFCActivity.class);
+                        startActivity(intent);
                         return;
                     }
 
