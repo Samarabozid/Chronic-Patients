@@ -1,0 +1,90 @@
+package android.android.chronicpatients.ActivitiesAndFragments;
+
+import android.Manifest;
+import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import android.android.chronicpatients.R;
+
+public class RegisterActivity extends AppCompatActivity
+{
+    FragmentPagerAdapter fragmentPagerAdapter;
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+
+        viewPager = findViewById(R.id.viewpager);
+        tabLayout = findViewById(R.id.tabs);
+
+        fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
+        {
+                private final Fragment[] mFragments = new Fragment[]
+                        {
+                                new SigninFragment(),
+                                new SignupFragment()
+                        };
+                private final String[] mFragmentNames = new String[]
+                        {
+                                "SIGN IN",
+                                "SIGN UP",
+                        };
+
+                @Override
+                public Fragment getItem(int position)
+                {
+                    return mFragments[position];
+                }
+
+                @Override
+                public int getCount()
+                {
+                    return mFragments.length;
+                }
+
+                @Nullable
+                @Override
+                public CharSequence getPageTitle(int position)
+                {
+                    return mFragmentNames[position];
+                }
+            };
+
+            viewPager.setAdapter(fragmentPagerAdapter);
+            tabLayout.setupWithViewPager(viewPager);
+        }
+
+    private long exitTime = 0;
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void doExitApp() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finishAffinity();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed()
+    {
+        doExitApp();
+    }
+}

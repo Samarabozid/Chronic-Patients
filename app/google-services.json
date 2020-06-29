@@ -1,52 +1,37 @@
 {
   "project_info": {
-    "project_number": "533636782893",
-    "firebase_url": "https://el7a2ny-7b23e.firebaseio.com",
-    "project_id": "el7a2ny-7b23e",
-    "storage_bucket": "el7a2ny-7b23e.appspot.com"
+    "project_number": "872374522951",
+    "firebase_url": "https://chronicpatients-792d6.firebaseio.com",
+    "project_id": "chronicpatients-792d6",
+    "storage_bucket": "chronicpatients-792d6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:533636782893:android:8105ae3a23602cfc",
+        "mobilesdk_app_id": "1:872374522951:android:2896dd729c0d35399e0d62",
         "android_client_info": {
-          "package_name": "mansour.abdullah.el7a2ny"
+          "package_name": "android.android.chronicpatients"
         }
       },
       "oauth_client": [
         {
-          "client_id": "533636782893-cs23tgs7kgb1i8vqmqdstqpeh90ok9sa.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "mansour.abdullah.el7a2ny",
-            "certificate_hash": "23d4a38124968feb2c2089fe3280a75d57b24b95"
-          }
-        },
-        {
-          "client_id": "533636782893-bf9g3vjv3l20d3ffifqu78of3t80vikv.apps.googleusercontent.com",
+          "client_id": "872374522951-rf9d7iqvi7go5dt6jednrm9nd717qnga.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCeq_0iaRwijBuhQF37BeJAx5B_HT94p3o"
+          "current_key": "AIzaSyBqpYCIW8xme4WK75rOK7GKu5BMnMM-e2c"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "533636782893-bf9g3vjv3l20d3ffifqu78of3t80vikv.apps.googleusercontent.com",
+              "client_id": "872374522951-rf9d7iqvi7go5dt6jednrm9nd717qnga.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

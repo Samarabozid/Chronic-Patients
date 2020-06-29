@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorPrimary"
+                    app:passwordToggleTint="#0f70ff"
                     android:layout_marginBottom="10dp"
                     app:hintEnabled="false"
                     >
@@ -329,7 +329,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="cancel"
-                        android:background="@color/colorAccent"
+                        android:background="#0f70ff"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         />
@@ -354,7 +354,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="sign up"
-                        android:background="@color/colorAccent"
+                        android:background="#0f70ff"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         />

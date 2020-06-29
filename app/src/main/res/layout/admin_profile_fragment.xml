@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:src="@drawable/doctor2"
+        android:src="@drawable/logo2"
         android:padding="30dp"
         />
 
@@ -28,11 +28,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="El7a2ny App"
+            android:text="HELP! App."
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:background="@color/colorAccent"
+            android:background="#0f70ff"
             android:gravity="center"
             android:padding="10dp"
             />
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Techniques used in this App :"
+                android:text="Developed By :"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -77,25 +77,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="(1) NFC Features : No power needed, safe to read and write data, high speed processes, easier way."
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="5dp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="(2) Cloud Database : Available cloud database, can access to any doctor or patient easily and quickly."
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="5dp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="(3) GPS Tracking : Paramedics arrive to the location quickly, information about the patient to to provide first aids."
+                android:text="Alaa El-Hossary."
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 />
@@ -126,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="sign out"
-                    android:background="@color/colorAccent"
+                    android:background="#0f70ff"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     />

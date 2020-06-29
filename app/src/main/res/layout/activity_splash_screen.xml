@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:padding="50dp"
-        android:src="@drawable/doctor2"
+        android:src="@drawable/logo2"
         android:elevation="10dp"
         />
 
@@ -26,31 +26,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/app_name"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
         android:layout_marginBottom="100dp"
-        />
+        android:gravity="center"
+        android:text="HELP!"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Saving Souls .."
+            android:text="Providing Patients with"
             android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textStyle="italic"
             android:gravity="center"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Becoms Easier .."
+            android:text="Best Medical Assistance."
             android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textStyle="italic"
             android:gravity="center"
             android:layout_marginBottom="50dp"
             />

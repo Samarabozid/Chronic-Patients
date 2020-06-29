@@ -50,7 +50,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/doctor2"
+                        android:src="@drawable/logo2"
                         android:layout_marginRight="20dp"
                         />
 
@@ -65,7 +65,7 @@
                             android:id="@+id/fullname_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Abdullah Mansour"
+                            android:text="android android"
                             android:textColor="#fff"
                             android:textStyle="bold"
                             android:textSize="20sp"
@@ -360,7 +360,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:loading_width="5dp"
-        app:loading_color="@color/colorPrimary"
+        app:loading_color="#0f70ff"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

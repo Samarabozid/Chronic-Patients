@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:src="@drawable/doctor2"
+            android:src="@drawable/logo2"
             android:padding="50dp"
             />
 
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimary"
+            app:passwordToggleTint="#0f70ff"
             android:layout_marginBottom="20dp"
             app:hintEnabled="false"
             android:layout_marginRight="30dp"
@@ -141,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="sign in"
-                    android:background="@color/colorAccent"
+                    android:background="#0f70ff"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     />
@@ -173,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="go as guest"
-                    android:background="@color/colorAccent"
+                    android:background="#0f70ff"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     />
@@ -189,7 +189,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:loading_width="5dp"
-        app:loading_color="@color/colorPrimary"
+        app:loading_color="#0f70ff"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -15,10 +15,10 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/colorPrimaryDark"
+        app:tabIndicatorColor="#0f70ff"
         app:tabIndicatorHeight="3dp"
         app:tabIndicatorFullWidth="false"
-        app:tabSelectedTextColor="@color/colorPrimaryDark"
+        app:tabSelectedTextColor="#0f70ff"
         app:tabTextColor="@color/item"
         app:tabTextAppearance="@style/TextAppearance.Subhead.Bold"
         >

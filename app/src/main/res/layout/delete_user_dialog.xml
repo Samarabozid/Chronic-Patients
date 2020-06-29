@@ -33,7 +33,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:background="@color/colorAccent"
+                android:background="#0f70ff"
                 android:gravity="center"
                 android:padding="10dp"
                 />
@@ -99,7 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="cancel"
-                        android:background="@color/colorAccent"
+                        android:background="#0f70ff"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         />
@@ -124,7 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="yes"
-                        android:background="@color/colorAccent"
+                        android:background="#0f70ff"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
                         />

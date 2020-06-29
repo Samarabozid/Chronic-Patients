@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="try again"
-                android:background="@color/colorAccent"
+                android:background="#0f70ff"
                 android:textColor="#fff"
                 android:textStyle="bold"
                 />

@@ -56,7 +56,7 @@
                         android:textSize="14sp"
                         android:gravity="center"
                         android:padding="15dp"
-                        android:background="@color/colorAccent"
+                        android:background="#0f70ff"
                         android:textColor="#fff"
                         android:textStyle="bold"
                         />
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="scan nfc"
-                    android:background="@color/colorAccent"
+                    android:background="#0f70ff"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:textSize="12sp"
@@ -104,7 +104,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:loading_width="5dp"
-        app:loading_color="@color/colorPrimary"
+        app:loading_color="#0f70ff"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

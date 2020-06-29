@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorAccent"
+                android:background="#0f70ff"
                 android:padding="5dp"
                 >
 
@@ -161,7 +161,7 @@
                             android:id="@+id/clear_filter_btn"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
-                            android:background="@color/colorAccent"
+                            android:background="#0f70ff"
                             android:text="clear filter"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -186,7 +186,7 @@
                             android:id="@+id/filter_search_btn"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
-                            android:background="@color/colorAccent"
+                            android:background="#0f70ff"
                             android:text="filter search"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -209,7 +209,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:loading_width="5dp"
-            app:loading_color="@color/colorPrimary"
+            app:loading_color="#0f70ff"
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>
